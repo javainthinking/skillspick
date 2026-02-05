@@ -10,12 +10,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const db = getDb();
   const row = await db.select().from(skills).where(eq(skills.slug, slug)).limit(1);
   const s = row[0];
-  if (!s) return { title: "Skill not found | SkillsPick" };
+  if (!s) return { title: "Skill not found | PickSkill" };
 
-  const site = process.env.SITE_URL || "https://skillspick.vercel.app";
+  const site = process.env.SITE_URL || "https://pickskill.ai";
   const url = `${site}/s/${s.slug}`;
 
-  const title = `${s.name} | SkillsPick`;
+  const title = `${s.name}`;
   const description = (s.description || "").slice(0, 180) || `AI agent skill: ${s.name}`;
 
   return {
@@ -43,7 +43,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
   const s = row[0];
   if (!s) return notFound();
 
-  const site = process.env.SITE_URL || "https://skillspick.vercel.app";
+  const site = process.env.SITE_URL || "https://pickskill.ai";
   const url = `${site}/s/${s.slug}`;
 
   const jsonLd = {
@@ -58,9 +58,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
   };
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen">
       <div className="mx-auto max-w-3xl px-4 py-10">
-        <Link href="/" className="text-sm text-white/60 hover:text-white">← Back</Link>
+        <Link href="/" className="text-sm text-white/60 hover:text-white/80">← Back</Link>
 
         <h1 className="mt-4 text-3xl font-extrabold tracking-tight">{s.name}</h1>
         <p className="mt-3 text-white/70">{s.description}</p>

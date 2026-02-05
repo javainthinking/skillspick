@@ -3,7 +3,26 @@ import { getDb } from "@/db";
 import { skills } from "@/db/schema";
 import { desc, ilike, or, sql } from "drizzle-orm";
 
+import type { Metadata } from "next";
+
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "PickSkill",
+  description: "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "PickSkill",
+    description: "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
+    url: "/",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PickSkill",
+    description: "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
+  },
+};
 
 type Props = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -40,6 +59,67 @@ export default async function Home({ searchParams }: Props) {
     : db.select().from(skills).orderBy(desc(skills.lastSeenAt)).limit(12);
 
   const [rows, totalSkills] = await Promise.all([rowsPromise, totalSkillsPromise]);
+
+  const faq = [
+    {
+      q: "What is an agent skill?",
+      a: "An agent skill is a reusable capability an AI agent can call—usually a tool integration (API/CLI), a workflow, or a best-practice prompt pattern packaged for repeatable use.",
+    },
+    {
+      q: "How do I choose the right skill?",
+      a: "Start from the job-to-be-done (e.g. GitHub PRs, calendar, CRM, ETL). Prefer skills with clear inputs/outputs, good docs, and minimal required secrets.",
+    },
+    {
+      q: "What are typical real-world patterns for agent skills?",
+      a: "Common patterns include: (1) retrieval + tool (search then act), (2) ingestion + indexing, (3) scheduled checks + notifications, (4) human-in-the-loop approvals for risky actions, and (5) structured outputs (JSON) for reliability.",
+    },
+    {
+      q: "How do I evaluate if a skill works well?",
+      a: "Use small, repeatable test cases. Check correctness, latency, and failure modes. Add logging/telemetry and explicit error handling. For high-impact flows, add automated evals.",
+    },
+    {
+      q: "Is it safe to give skills access to my accounts?",
+      a: "Treat skills like code you run. Use least privilege, rotate tokens, and keep high-risk actions behind confirmations. Prefer scoped API tokens over full-account credentials.",
+    },
+    {
+      q: "What is the best way to avoid agent hallucinations?",
+      a: "Force tool use for facts, keep prompts small, require citations/links, and validate outputs (schemas, unit tests, or checkers). Don’t rely on free-form text for critical steps.",
+    },
+    {
+      q: "Can I publish my own skill?",
+      a: "Yes—package a clear interface (inputs/outputs), include docs + examples, and describe required secrets. Make sure it fails safely and is easy to install.",
+    },
+    {
+      q: "How often is the index updated?",
+      a: "PickSkill is updated via ingest from multiple sources. Some sources update continuously; others update in batches.",
+    },
+  ];
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "PickSkill",
+      url: (process.env.SITE_URL || "https://pickskill.ai") + "/",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: (process.env.SITE_URL || "https://pickskill.ai") + "/?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faq.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.a,
+        },
+      })),
+    },
+  ];
 
   return (
     <main className="min-h-screen">
@@ -199,10 +279,31 @@ export default async function Home({ searchParams }: Props) {
             </div>
           ) : null}
 
-          <footer className="mt-10 text-center text-xs text-white/30">
+          <div className="mt-14 border-t border-white/10 pt-10">
+            <div className="text-xs font-medium uppercase tracking-wider text-white/35">FAQ</div>
+            <div className="mt-4 space-y-2">
+              {faq.map((item) => (
+                <details
+                  key={item.q}
+                  className="group rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 open:bg-white/[0.06]"
+                >
+                  <summary className="cursor-pointer list-none select-none text-sm font-semibold text-white">
+                    <span className="mr-2 text-white/40 group-open:hidden">+</span>
+                    <span className="mr-2 text-white/40 hidden group-open:inline">−</span>
+                    {item.q}
+                  </summary>
+                  <div className="mt-3 text-sm leading-relaxed text-white/60">{item.a}</div>
+                </details>
+              ))}
+            </div>
+          </div>
+
+          <footer className="mt-12 text-center text-xs text-white/30">
             Data sources: ClawHub + Awesome lists.
           </footer>
         </section>
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </div>
     </main>
   );
