@@ -62,7 +62,15 @@ function normalizeRepoUrl(url: string) {
 
 async function main() {
   for (const src of SOURCES) {
-    const raw = await fetchText(`https://raw.githubusercontent.com/${src.owner}/${src.repo}/${src.ref ?? "main"}/${src.path}`);
+    const ref = src.ref ?? "main";
+    const raw = await fetchText(`https://raw.githubusercontent.com/${src.owner}/${src.repo}/${ref}/${src.path}`)
+      .catch(async (err) => {
+        // Fallback for repos using master as default branch.
+        if (!src.ref && ref === "main") {
+          return await fetchText(`https://raw.githubusercontent.com/${src.owner}/${src.repo}/master/${src.path}`);
+        }
+        throw err;
+      });
 
     const links = extractMarkdownLinks(raw)
       .filter((l) => looksLikeRepo(l.url))
