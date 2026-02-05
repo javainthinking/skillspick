@@ -94,6 +94,49 @@ export default async function Home({ searchParams }: Props) {
                 <>Try: memory, github, vercel, slack</>
               )}
             </div>
+
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-white/50">
+              <div className="mr-1 text-[11px] uppercase tracking-wider text-white/35">Works with</div>
+
+              <a
+                href="https://cursor.com"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+              >
+                <img src="/brands/cursor.ico" alt="Cursor" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <span className="text-white/60 group-hover:text-white/80">Cursor</span>
+                <span className="text-white/35">IDE</span>
+              </a>
+
+              <a
+                href="https://claude.ai"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+              >
+                <img src="/brands/claude.ico" alt="Claude" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <span className="text-white/60 group-hover:text-white/80">Claude</span>
+                <span className="text-white/35">LLM</span>
+              </a>
+
+              <a
+                href="https://docs.openclaw.ai"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+              >
+                <img src="/brands/openclaw.svg" alt="OpenClaw" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <span className="text-white/60 group-hover:text-white/80">OpenClaw</span>
+                <span className="text-white/35">Agents</span>
+              </a>
+
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur">
+                <span className="grid h-4 w-4 place-items-center rounded bg-white/10 text-[10px] font-semibold text-white/70">A</span>
+                <span className="text-white/60">Antigravity</span>
+                <span className="text-white/35">tools</span>
+              </span>
+            </div>
           </form>
         </section>
 
