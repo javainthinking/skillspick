@@ -36,25 +36,10 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <main className="min-h-screen">
-      {/* background */}
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(1200px_circle_at_20%_10%,rgba(168,85,247,0.20),transparent_45%),radial-gradient(900px_circle_at_80%_30%,rgba(59,130,246,0.18),transparent_45%),radial-gradient(900px_circle_at_50%_90%,rgba(236,72,153,0.12),transparent_50%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/50" />
-      </div>
-
-      <div className="mx-auto max-w-5xl px-4 py-14">
-        <header className="flex items-center justify-between gap-4">
-          <div>
-            <div className="text-lg font-semibold tracking-tight text-white/90">
-              <span className="font-semibold tracking-tight">Skills</span>
-              <span className="ml-1 font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-indigo-400 to-cyan-300">
-                Pick
-              </span>
-            </div>
-            <div className="mt-1 text-sm text-white/50">Search & discover AI agent skills.</div>
-          </div>
+      <div className="mx-auto max-w-5xl px-4 py-6">
+        <header className="flex items-center justify-end">
           <a
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur hover:bg-white/10"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/70 backdrop-blur hover:bg-white/10"
             href="https://clawhub.ai/skills"
             target="_blank"
             rel="noreferrer"
@@ -62,79 +47,69 @@ export default async function Home({ searchParams }: Props) {
             <img
               src="https://clawhub.ai/clawd-logo.png"
               alt="ClawHub"
-              className="h-5 w-5 rounded-md bg-white/5 p-0.5"
+              className="h-4 w-4 rounded bg-white/5 p-0.5"
               loading="lazy"
               referrerPolicy="no-referrer"
             />
             <span>ClawHub</span>
-            <span className="text-white/50">↗</span>
+            <span className="text-white/40">↗</span>
           </a>
         </header>
 
-        <section className="mt-10">
-          <h1 className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            Find the right <span className="font-black">skill</span>.
-          </h1>
-          <p className="mt-4 max-w-2xl text-pretty text-base text-white/60">
-            Type a keyword to search by name, slug, description, repo, homepage, or source URL.
-          </p>
+        <section className="mx-auto flex min-h-[55vh] max-w-2xl flex-col items-center justify-center text-center">
+          <div className="text-5xl font-semibold tracking-tight text-white sm:text-6xl">
+            <span className="font-medium text-white/90">Skills</span>
+            <span className="ml-2 font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200">
+              Pick
+            </span>
+          </div>
+          <div className="mt-3 text-sm text-white/50">A minimal search engine for AI agent skills.</div>
 
-          <form method="GET" className="mt-6">
-            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur">
+          <form method="GET" className="mt-8 w-full">
+            <div className="flex w-full items-center gap-2 rounded-full border border-white/12 bg-white/5 p-2 pl-4 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur">
+              <div className="text-white/35">⌕</div>
               <input
                 name="q"
                 defaultValue={q}
-                placeholder="Search skills (e.g. memory, github, slack, vercel)"
-                className="w-full bg-transparent px-3 py-3 text-base text-white/90 outline-none placeholder:text-white/40"
+                placeholder="Search skills"
+                className="w-full bg-transparent py-3 text-base text-white/90 outline-none placeholder:text-white/35"
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-xl bg-gradient-to-b from-fuchsia-500 to-indigo-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(168,85,247,0.25)] hover:opacity-95"
+                className="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-semibold text-black hover:bg-white"
               >
                 Search
               </button>
             </div>
-            {q ? (
-              <div className="mt-3 text-sm text-white/50">
-                Showing top {rows.length} results for <span className="text-white/80">“{q}”</span>
-              </div>
-            ) : (
-              <div className="mt-3 text-sm text-white/50">Try: memory, github, vercel, slack, notion</div>
-            )}
+
+            <div className="mt-4 text-xs text-white/45">
+              {q ? (
+                <>
+                  Showing top {rows.length} results for <span className="text-white/75">“{q}”</span> ·{" "}
+                  <Link href="/" className="underline underline-offset-4 hover:text-white/70">
+                    Clear
+                  </Link>
+                </>
+              ) : (
+                <>Try: memory, github, vercel, slack</>
+              )}
+            </div>
           </form>
         </section>
 
-        <section className="mt-10">
-          <div className="flex items-end justify-between gap-4">
-            <div className="text-sm font-medium text-white/70">
-              {q ? "Results" : "Recently seen"}
-            </div>
-            {q ? (
-              <Link href="/" className="text-sm text-white/50 hover:text-white/70">
-                Clear
-              </Link>
-            ) : null}
+        <section className="mx-auto max-w-3xl pb-14">
+          <div className="mb-3 text-xs font-medium uppercase tracking-wider text-white/35">
+            {q ? "Results" : "Recently seen"}
           </div>
 
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="space-y-4">
             {rows.map((s) => (
-              <Link
-                key={s.id}
-                href={`/s/${s.slug}`}
-                className="group rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:bg-white/10"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <div className="truncate text-base font-semibold text-white">{s.name}</div>
-                    <div className="mt-1 line-clamp-2 text-sm text-white/55">{s.description || ""}</div>
-                    <div className="mt-3 flex items-center gap-2 text-xs text-white/40">
-                      <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1">⭐ {s.stars ?? 0}</span>
-                      <span className="truncate">/{s.slug}</span>
-                    </div>
-                  </div>
-                  <div className="shrink-0 rounded-full border border-white/10 bg-white/5 px-2 py-1 text-xs text-white/70">
-                    ↗
-                  </div>
+              <Link key={s.id} href={`/s/${s.slug}`} className="block rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:bg-white/[0.06]">
+                <div className="text-base font-semibold text-white">{s.name}</div>
+                <div className="mt-1 line-clamp-2 text-sm text-white/55">{s.description || ""}</div>
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-white/40">
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1">/{s.slug}</span>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1">⭐ {s.stars ?? 0}</span>
                 </div>
               </Link>
             ))}
@@ -145,11 +120,11 @@ export default async function Home({ searchParams }: Props) {
               No results. Try a shorter keyword.
             </div>
           ) : null}
-        </section>
 
-        <footer className="mt-14 text-xs text-white/35">
-          Data sources: ClawHub + Awesome lists.
-        </footer>
+          <footer className="mt-10 text-center text-xs text-white/30">
+            Data sources: ClawHub + Awesome lists.
+          </footer>
+        </section>
       </div>
     </main>
   );
