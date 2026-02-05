@@ -147,7 +147,12 @@ export default async function Home({ searchParams }: Props) {
               </a>
 
               <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur">
-                <span className="grid h-4 w-4 place-items-center rounded bg-white/10 text-[10px] font-semibold text-white/70">A</span>
+                <img
+                  src="/brands/antigravity.png"
+                  alt="Antigravity"
+                  className="h-4 w-4 opacity-85"
+                  loading="lazy"
+                />
                 <span className="text-white/60">Antigravity</span>
                 <span className="text-white/35">tools</span>
               </span>
