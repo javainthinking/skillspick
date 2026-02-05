@@ -136,7 +136,7 @@ export default async function Home({ searchParams }: Props) {
               </a>
 
               <a
-                href="https://docs.openclaw.ai"
+                href="https://openclaw.ai"
                 target="_blank"
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
@@ -146,16 +146,21 @@ export default async function Home({ searchParams }: Props) {
                 <span className="text-white/35">Agents</span>
               </a>
 
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur">
+              <a
+                href="https://antigravity.google"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+              >
                 <img
                   src="/brands/antigravity.png"
                   alt="Antigravity"
-                  className="h-4 w-4 opacity-85"
+                  className="h-4 w-4 opacity-85 group-hover:opacity-100"
                   loading="lazy"
                 />
-                <span className="text-white/60">Antigravity</span>
+                <span className="text-white/60 group-hover:text-white/80">Antigravity</span>
                 <span className="text-white/35">tools</span>
-              </span>
+              </a>
             </div>
           </form>
         </section>
