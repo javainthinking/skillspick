@@ -45,7 +45,12 @@ export default async function Home({ searchParams }: Props) {
       <div className="mx-auto max-w-5xl px-4 py-14">
         <header className="flex items-center justify-between gap-4">
           <div>
-            <div className="text-lg font-semibold tracking-tight text-white/80">SkillsPick</div>
+            <div className="text-lg font-semibold tracking-tight text-white/90">
+              <span className="font-semibold tracking-tight">Skills</span>
+              <span className="ml-1 font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-indigo-400 to-cyan-300">
+                Pick
+              </span>
+            </div>
             <div className="mt-1 text-sm text-white/50">Search & discover AI agent skills.</div>
           </div>
           <a
@@ -60,7 +65,7 @@ export default async function Home({ searchParams }: Props) {
 
         <section className="mt-10">
           <h1 className="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            Find the right skill.
+            Find the right <span className="font-black">skill</span>.
           </h1>
           <p className="mt-4 max-w-2xl text-pretty text-base text-white/60">
             Type a keyword to search by name, slug, description, repo, homepage, or source URL.
