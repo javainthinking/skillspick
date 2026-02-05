@@ -58,10 +58,10 @@ export default async function Home({ searchParams }: Props) {
 
         <section className="mx-auto flex min-h-[55vh] max-w-2xl flex-col items-center justify-center text-center">
           <div className="text-5xl font-semibold tracking-tight text-white sm:text-6xl">
-            <span className="font-medium text-white/90">Skills</span>
-            <span className="ml-2 font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200">
+            <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200">
               Pick
             </span>
+            <span className="ml-2 font-medium text-white/90">Skill</span>
           </div>
           <div className="mt-3 text-sm text-white/50">A minimal search engine for AI agent skills.</div>
 

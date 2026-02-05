@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SkillsPick",
-  description: "A fast search engine for AI agent skills.",
+  title: "PickSkill",
+  description: "A minimal search engine for AI agent skills.",
 };
 
 export default function RootLayout({
