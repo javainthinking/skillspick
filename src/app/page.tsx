@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getDb } from "@/db";
 import { skills } from "@/db/schema";
-import { desc, ilike, or } from "drizzle-orm";
+import { desc, ilike, or, sql } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
 
@@ -16,8 +16,13 @@ export default async function Home({ searchParams }: Props) {
 
   const db = getDb();
 
-  const rows = q
-    ? await db
+  const totalSkillsPromise = db
+    .select({ value: sql<number>`count(*)` })
+    .from(skills)
+    .then((rows) => Number(rows[0]?.value ?? 0));
+
+  const rowsPromise = q
+    ? db
         .select()
         .from(skills)
         .where(
@@ -32,7 +37,9 @@ export default async function Home({ searchParams }: Props) {
         )
         .orderBy(desc(skills.stars), desc(skills.lastSeenAt))
         .limit(50)
-    : await db.select().from(skills).orderBy(desc(skills.lastSeenAt)).limit(12);
+    : db.select().from(skills).orderBy(desc(skills.lastSeenAt)).limit(12);
+
+  const [rows, totalSkills] = await Promise.all([rowsPromise, totalSkillsPromise]);
 
   return (
     <main className="min-h-screen">
@@ -64,6 +71,14 @@ export default async function Home({ searchParams }: Props) {
             </span>
           </div>
           <div className="mt-3 text-sm text-white/50">A minimal search engine for AI agent skills.</div>
+
+          <div className="mt-4 flex items-center justify-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-white/55 backdrop-blur">
+              <span className="text-white/35">Total</span>
+              <span className="font-semibold text-white/75">{Intl.NumberFormat().format(totalSkills)}</span>
+              <span className="text-white/35">skills indexed</span>
+            </div>
+          </div>
 
           <form method="GET" className="mt-8 w-full">
             <div className="group flex w-full items-center gap-2 rounded-full border border-white/15 bg-white/5 p-2 pl-4 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur transition hover:border-white/25 focus-within:border-white/30 focus-within:shadow-[0_16px_60px_rgba(168,85,247,0.10)]">
