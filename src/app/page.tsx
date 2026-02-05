@@ -64,7 +64,7 @@ export default async function Home({ searchParams }: Props) {
         </header>
 
         <section className="mx-auto flex min-h-[55vh] max-w-2xl flex-col items-center justify-center text-center">
-          <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl">
+          <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl font-[var(--font-display)]">
             <span className="font-medium text-white/90">Pick</span>
             <span className="ml-2 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent">
               Skill
