@@ -66,7 +66,7 @@ export default async function Home({ searchParams }: Props) {
           <div className="mt-3 text-sm text-white/50">A minimal search engine for AI agent skills.</div>
 
           <form method="GET" className="mt-8 w-full">
-            <div className="flex w-full items-center gap-2 rounded-full border border-white/12 bg-white/5 p-2 pl-4 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur">
+            <div className="group flex w-full items-center gap-2 rounded-full border border-white/15 bg-white/5 p-2 pl-4 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur transition hover:border-white/25 focus-within:border-white/30 focus-within:shadow-[0_16px_60px_rgba(168,85,247,0.10)]">
               <div className="text-white/35">⌕</div>
               <input
                 name="q"
@@ -76,7 +76,7 @@ export default async function Home({ searchParams }: Props) {
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-full bg-white/90 px-5 py-3 text-sm font-semibold text-black hover:bg-white"
+                className="shrink-0 rounded-full border border-white/25 bg-transparent px-5 py-3 text-sm font-semibold text-white/80 transition hover:border-white/35 hover:text-white group-focus-within:border-white/0 group-focus-within:bg-white group-focus-within:text-black"
               >
                 Search
               </button>
