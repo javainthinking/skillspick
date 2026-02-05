@@ -81,13 +81,12 @@ export default async function Home({ searchParams }: Props) {
           </div>
 
           <form method="GET" className="mt-8 w-full">
-            <div className="group flex w-full items-center gap-2 rounded-full border border-white/15 bg-white/5 p-2 pl-4 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur transition hover:border-white/25 focus-within:border-white/30 focus-within:shadow-[0_16px_60px_rgba(168,85,247,0.10)]">
-              <div className="text-white/35">⌕</div>
+            <div className="group flex w-full items-center gap-2 rounded-full border border-white/15 bg-white/5 p-2 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur transition hover:border-white/25 focus-within:border-white/30 focus-within:shadow-[0_16px_60px_rgba(168,85,247,0.10)]">
               <input
                 name="q"
                 defaultValue={q}
                 placeholder="Search skills"
-                className="w-full bg-transparent py-3 text-base text-white/90 outline-none placeholder:text-white/35"
+                className="w-full bg-transparent px-4 py-3 text-base text-white/90 outline-none placeholder:text-white/35"
               />
               <button
                 type="submit"
