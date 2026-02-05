@@ -136,6 +136,17 @@ export default async function Home({ searchParams }: Props) {
               </a>
 
               <a
+                href="https://openai.com/codex"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+              >
+                <img src="/brands/openai.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <span className="text-white/60 group-hover:text-white/80">Codex</span>
+                <span className="text-white/35">OpenAI</span>
+              </a>
+
+              <a
                 href="https://openclaw.ai"
                 target="_blank"
                 rel="noreferrer"
