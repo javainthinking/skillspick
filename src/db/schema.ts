@@ -98,3 +98,26 @@ export const skillSources = pgTable(
     pk: primaryKey({ columns: [t.skillId, t.sourceId] }),
   })
 );
+
+// Ingest checkpointing so long-running jobs can resume after interruption.
+export const ingestState = pgTable(
+  "skills_ingest_state",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+
+    // e.g. "clawhub" | "github_list"
+    sourceKind: text("source_kind").notNull(),
+    // e.g. "ClawHub" | "ComposioHQ/awesome-claude-skills"
+    sourceName: text("source_name").notNull(),
+
+    cursor: text("cursor"),
+    pageNo: integer("page_no").notNull().default(0),
+    upsertedTotal: integer("upserted_total").notNull().default(0),
+    done: integer("done").notNull().default(0),
+
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => ({
+    srcIdx: uniqueIndex("skills_ingest_state_src_ux").on(t.sourceKind, t.sourceName),
+  })
+);

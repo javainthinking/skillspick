@@ -15,6 +15,13 @@
       "when": 1770274673883,
       "tag": "0001_bouncy_bromley",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1770302236323,
+      "tag": "0002_huge_paper_doll",
+      "breakpoints": true
     }
   ]
 }

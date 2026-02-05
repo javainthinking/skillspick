@@ -1,4 +1,7 @@
 import { upsertSkill } from "@/lib/ingest";
+import { getDb } from "@/db";
+import { ingestState } from "@/db/schema";
+import { eq, and } from "drizzle-orm";
 
 type ConvexQueryResponse<T> =
   | { status: "success"; value: T }
@@ -103,17 +106,78 @@ async function convexQuery<T>(path: string, args: Record<string, unknown>): Prom
   throw lastErr;
 }
 
+async function loadState(db: ReturnType<typeof getDb>, sourceKind: string, sourceName: string) {
+  const rows = await db
+    .select()
+    .from(ingestState)
+    .where(and(eq(ingestState.sourceKind, sourceKind), eq(ingestState.sourceName, sourceName)))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+async function saveState(
+  db: ReturnType<typeof getDb>,
+  sourceKind: string,
+  sourceName: string,
+  patch: Partial<{ cursor: string | null; pageNo: number; upsertedTotal: number; done: number }>,
+) {
+  const existing = await loadState(db, sourceKind, sourceName);
+  const now = new Date();
+  if (!existing) {
+    await db.insert(ingestState).values({
+      sourceKind,
+      sourceName,
+      cursor: patch.cursor ?? null,
+      pageNo: patch.pageNo ?? 0,
+      upsertedTotal: patch.upsertedTotal ?? 0,
+      done: patch.done ?? 0,
+      updatedAt: now,
+    });
+    return;
+  }
+
+  await db
+    .update(ingestState)
+    .set({
+      cursor: patch.cursor ?? existing.cursor,
+      pageNo: patch.pageNo ?? existing.pageNo,
+      upsertedTotal: patch.upsertedTotal ?? existing.upsertedTotal,
+      done: patch.done ?? existing.done,
+      updatedAt: now,
+    })
+    .where(eq(ingestState.id, existing.id));
+}
+
 async function main() {
   if (!process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL is missing. Set it in the environment before running ingest.");
   }
 
-  let cursor: string | null = null;
-  let total = 0;
-  let pageNo = 0;
+  const MAX_PAGES = Number.parseInt(process.env.MAX_PAGES ?? "5", 10);
+  const SOURCE_KIND = "clawhub";
+  const SOURCE_NAME = "ClawHub";
+
+  const db = getDb();
+  const state = await loadState(db, SOURCE_KIND, SOURCE_NAME);
+
+  if (state?.done) {
+    console.log("[clawhub] already done; nothing to do");
+    return;
+  }
+
+  let cursor: string | null = state?.cursor ?? null;
+  let total = state?.upsertedTotal ?? 0;
+  let pageNo = state?.pageNo ?? 0;
+  let pagesRun = 0;
 
   for (;;) {
+    if (pagesRun >= MAX_PAGES) {
+      console.log(`[clawhub] reached MAX_PAGES=${MAX_PAGES}; checkpoint saved; exiting`);
+      break;
+    }
+
     pageNo += 1;
+    pagesRun += 1;
 
     const result: PageResult = await convexQuery<PageResult>("skills:listPublicPageV2", {
       paginationOpts: {
@@ -168,6 +232,14 @@ async function main() {
       total += 1;
       if (total % 100 === 0) console.log(`[clawhub] upserted ${total}`);
     }
+
+    // page-level checkpoint
+    await saveState(db, SOURCE_KIND, SOURCE_NAME, {
+      cursor: result.continueCursor ?? null,
+      pageNo,
+      upsertedTotal: total,
+      done: result.isDone ? 1 : 0,
+    });
 
     if (result.isDone) {
       console.log(`[clawhub] done. total upserted=${total}`);
