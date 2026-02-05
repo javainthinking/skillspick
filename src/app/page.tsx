@@ -54,12 +54,20 @@ export default async function Home({ searchParams }: Props) {
             <div className="mt-1 text-sm text-white/50">Search & discover AI agent skills.</div>
           </div>
           <a
-            className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur hover:bg-white/10"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur hover:bg-white/10"
             href="https://clawhub.ai/skills"
             target="_blank"
             rel="noreferrer"
           >
-            ClawHub ↗
+            <img
+              src="https://clawhub.ai/clawd-logo.png"
+              alt="ClawHub"
+              className="h-5 w-5 rounded-md bg-white/5 p-0.5"
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
+            <span>ClawHub</span>
+            <span className="text-white/50">↗</span>
           </a>
         </header>
 
