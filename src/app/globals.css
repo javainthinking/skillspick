@@ -9,12 +9,16 @@
   --font-body: var(--font-manrope), var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif;
 }
 
+html,
+body {
+  font-family: var(--font-body);
+}
+
 body {
   background: radial-gradient(900px circle at 50% 0%, rgba(168, 85, 247, 0.12), transparent 55%),
     radial-gradient(900px circle at 100% 15%, rgba(59, 130, 246, 0.10), transparent 55%),
     var(--background);
   color: var(--foreground);
-  font-family: var(--font-body);
 }
 
 h1,
