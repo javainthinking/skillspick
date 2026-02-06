@@ -101,6 +101,20 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
             </a>
           ) : null}
 
+          {s.sourceUrl ? (
+            <a
+              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
+              href={s.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              title={s.sourceUrl}
+            >
+              <img src="/brands/github.svg" alt="Source" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+              <span className="text-white/60 group-hover:text-white/80">Entry</span>
+              <span className="text-white/40">↗</span>
+            </a>
+          ) : null}
+
           {sourceRows.map((src) => {
             const isClawHub = src.kind === "clawhub" || /clawhub\./i.test(src.url);
             const isGitHubList = src.kind === "github_list" || /github\.com/i.test(src.url);
@@ -134,19 +148,6 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
               </a>
             );
           })}
-
-          {/* Back-compat: keep legacy single sourceUrl if present and no sources join data */}
-          {s.sourceUrl && sourceRows.length === 0 ? (
-            <a
-              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
-              href={s.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span className="text-white/60 group-hover:text-white/80">Source</span>
-              <span className="text-white/40">↗</span>
-            </a>
-          ) : null}
         </div>
 
         {s.readmeMarkdown ? (
