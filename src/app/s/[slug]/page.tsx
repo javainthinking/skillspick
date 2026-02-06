@@ -4,6 +4,9 @@ import { skills, skillSources, sources } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { githubToRawUrl } from "@/lib/githubRaw";
+import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -36,6 +39,52 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+async function fetchSkillMarkdown(entryUrl?: string | null): Promise<{ rawUrl: string; markdown: string } | null> {
+  if (!entryUrl) return null;
+  const rawUrl = githubToRawUrl(entryUrl);
+  if (!rawUrl) return null;
+
+  // Only fetch markdown-ish files.
+  if (!/\.(md|mdx)$/i.test(rawUrl) && !/\/SKILL\.md$/i.test(rawUrl)) return null;
+
+  const res = await fetch(rawUrl, {
+    // Keep it reasonably fresh without hammering GitHub.
+    next: { revalidate: 60 * 30 },
+  });
+  if (!res.ok) return null;
+  const markdown = await res.text();
+  if (!markdown.trim()) return null;
+  return { rawUrl, markdown };
+}
+
+function renderMarkdownSafe(md: string): string {
+  const html = marked.parse(md) as string;
+  return sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+      "img",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "pre",
+      "code",
+      "blockquote",
+      "hr",
+    ]),
+    allowedAttributes: {
+      a: ["href", "name", "target", "rel"],
+      img: ["src", "alt", "title"],
+      code: ["class"],
+      pre: ["class"],
+      '*': ["class"],
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+    transformTags: {
+      a: sanitizeHtml.simpleTransform("a", { target: "_blank", rel: "noreferrer" }),
+    },
+  });
+}
+
 export default async function SkillPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const db = getDb();
@@ -56,6 +105,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
     .from(skillSources)
     .innerJoin(sources, eq(skillSources.sourceId, sources.id))
     .where(eq(skillSources.skillId, s.id));
+
+  const skillDoc = await fetchSkillMarkdown(s.sourceUrl);
+  const skillDocHtml = skillDoc ? renderMarkdownSafe(skillDoc.markdown) : null;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -159,7 +211,26 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
           </div>
         </div>
 
-        {s.readmeMarkdown ? (
+        {skillDocHtml ? (
+          <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div className="text-sm font-semibold text-white/80">SKILL.md</div>
+                <div className="mt-1 text-xs text-white/45">Rendered from <a className="underline underline-offset-4 hover:text-white/70" href={skillDoc!.rawUrl} target="_blank" rel="noreferrer">GitHub raw</a></div>
+              </div>
+              {skillDoc?.rawUrl ? (
+                <a className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/60 hover:bg-white/10" href={skillDoc.rawUrl} target="_blank" rel="noreferrer">
+                  View raw ↗
+                </a>
+              ) : null}
+            </div>
+
+            <article
+              className="prose prose-invert mt-5 max-w-none prose-headings:scroll-mt-24 prose-headings:text-white prose-p:text-white/70 prose-li:text-white/70 prose-strong:text-white prose-a:text-white/80 prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-white"
+              dangerouslySetInnerHTML={{ __html: skillDocHtml }}
+            />
+          </div>
+        ) : s.readmeMarkdown ? (
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5">
             <div className="text-sm font-semibold text-white/80">README (raw)</div>
             <pre className="mt-3 max-h-[520px] overflow-auto whitespace-pre-wrap text-xs text-white/70">{s.readmeMarkdown}</pre>
