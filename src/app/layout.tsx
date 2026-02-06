@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+
+import "@fontsource-variable/manrope";
+import "@fontsource-variable/bricolage-grotesque";
+
 import "./globals.css";
 
 const siteUrl = process.env.SITE_URL || "https://pickskill.ai";
