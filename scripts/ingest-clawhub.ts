@@ -193,43 +193,52 @@ async function main() {
       console.log(`[clawhub] page ${pageNo}: ${items.length} items`);
     }
 
-    for (const it of items) {
-      const fm = it.latestVersion?.parsed?.frontmatter ?? undefined;
+    const WRITE_CONCURRENCY = Number.parseInt(process.env.WRITE_CONCURRENCY ?? "6", 10);
 
-      const homepageUrl = pickString(fm, [
-        "homepage",
-        "homepageUrl",
-        "home",
-        "url",
-        "website",
-      ]);
+    // Process items with limited concurrency to speed up writes without overwhelming Postgres.
+    for (let i = 0; i < items.length; i += WRITE_CONCURRENCY) {
+      const batch = items.slice(i, i + WRITE_CONCURRENCY);
 
-      const repoUrl = normalizeRepoUrl(
-        pickString(fm, ["repo", "repoUrl", "repository", "github", "source"]) ?? undefined,
+      await Promise.all(
+        batch.map(async (it) => {
+          const fm = it.latestVersion?.parsed?.frontmatter ?? undefined;
+
+          const homepageUrl = pickString(fm, [
+            "homepage",
+            "homepageUrl",
+            "home",
+            "url",
+            "website",
+          ]);
+
+          const repoUrl = normalizeRepoUrl(
+            pickString(fm, ["repo", "repoUrl", "repository", "github", "source"]) ?? undefined,
+          );
+
+          const owner = it.ownerHandle ?? null;
+          const sourceUrl = owner
+            ? `https://clawhub.ai/${encodeURIComponent(owner)}/${encodeURIComponent(it.skill.slug)}`
+            : `https://clawhub.ai/skills?focus=search&q=${encodeURIComponent(it.skill.slug)}`;
+
+          await upsertSkill(
+            {
+              name: it.skill.displayName,
+              description: it.skill.summary ?? undefined,
+              homepageUrl,
+              repoUrl,
+              sourceUrl,
+              stars: it.skill.stats?.stars ?? undefined,
+            },
+            {
+              kind: "clawhub",
+              name: "ClawHub",
+              url: "https://clawhub.ai/skills",
+            },
+          );
+        }),
       );
 
-      const owner = it.ownerHandle ?? null;
-      const sourceUrl = owner
-        ? `https://clawhub.ai/${encodeURIComponent(owner)}/${encodeURIComponent(it.skill.slug)}`
-        : `https://clawhub.ai/skills?focus=search&q=${encodeURIComponent(it.skill.slug)}`;
-
-      await upsertSkill(
-        {
-          name: it.skill.displayName,
-          description: it.skill.summary ?? undefined,
-          homepageUrl,
-          repoUrl,
-          sourceUrl,
-          stars: it.skill.stats?.stars ?? undefined,
-        },
-        {
-          kind: "clawhub",
-          name: "ClawHub",
-          url: "https://clawhub.ai/skills",
-        },
-      );
-
-      total += 1;
+      total += batch.length;
       if (total % 100 === 0) console.log(`[clawhub] upserted ${total}`);
     }
 
