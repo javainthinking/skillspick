@@ -76,46 +76,54 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
         <h1 className="mt-4 text-3xl font-extrabold tracking-tight">{s.name}</h1>
         <p className="mt-3 text-white/70">{s.description}</p>
 
-        <div className="mt-6 flex flex-wrap gap-2 text-sm">
-          {s.repoUrl ? (
-            <a
-              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
-              href={s.repoUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
-              <span>GitHub</span>
-            </a>
-          ) : null}
-
-          {s.homepageUrl ? (
-            <a
-              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
-              href={s.homepageUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span className="text-white/60 group-hover:text-white">Homepage</span>
-              <span className="text-white/40">↗</span>
-            </a>
-          ) : null}
-
+        <div className="mt-6 flex flex-col gap-4">
+          {/* Primary CTA: entry link */}
           {s.sourceUrl ? (
             <a
-              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-indigo-500 to-cyan-400 px-4 py-3 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(168,85,247,0.25)] transition hover:opacity-95"
               href={s.sourceUrl}
               target="_blank"
               rel="noreferrer"
               title={s.sourceUrl}
             >
-              <img src="/brands/github.svg" alt="Source" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
-              <span className="text-white/60 group-hover:text-white/80">Entry</span>
-              <span className="text-white/40">↗</span>
+              <span className="inline-flex items-center gap-2">
+                <img src="/brands/github.svg" alt="Entry" className="h-4 w-4 opacity-95" />
+                <span>Open Entry</span>
+                <span className="text-white/90">↗</span>
+              </span>
             </a>
           ) : null}
 
-          {sourceRows.map((src) => {
+          {/* Secondary links */}
+          <div className="flex flex-wrap gap-2 text-sm">
+            {s.repoUrl ? (
+              <a
+                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
+                href={s.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                title={s.repoUrl}
+              >
+                <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <span>Repo</span>
+                <span className="text-white/40">↗</span>
+              </a>
+            ) : null}
+
+            {s.homepageUrl ? (
+              <a
+                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
+                href={s.homepageUrl}
+                target="_blank"
+                rel="noreferrer"
+                title={s.homepageUrl}
+              >
+                <span className="text-white/60 group-hover:text-white">Homepage</span>
+                <span className="text-white/40">↗</span>
+              </a>
+            ) : null}
+
+            {sourceRows.map((src) => {
             const isClawHub = src.kind === "clawhub" || /clawhub\./i.test(src.url);
             const isGitHubList = src.kind === "github_list" || /github\.com/i.test(src.url);
             const icon = isClawHub ? (
@@ -147,7 +155,8 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 <span className="text-white/60 group-hover:text-white/80">{isClawHub ? "ClawHub" : isGitHubList ? "GitHub list" : "Source"}</span>
               </a>
             );
-          })}
+            })}
+          </div>
         </div>
 
         {s.readmeMarkdown ? (
