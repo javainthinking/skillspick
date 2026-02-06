@@ -30,3 +30,30 @@ h3 {
 ::selection {
   background: rgba(168, 85, 247, 0.28);
 }
+
+/* GitHub-flavored markdown base (github-markdown-css) tweaks to fit our glass UI */
+.markdown-body {
+  background: transparent !important;
+  color: var(--foreground) !important;
+  font-family: var(--font-body) !important;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  border-radius: 12px;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.markdown-body table tr {
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background: rgba(255, 255, 255, 0.035) !important;
+}

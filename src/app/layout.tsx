@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/bricolage-grotesque";
+import "github-markdown-css/github-markdown-dark.css";
 
 import "./globals.css";
 

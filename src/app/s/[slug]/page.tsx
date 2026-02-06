@@ -274,7 +274,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
             ) : null}
 
             <article
-              className="prose prose-invert mt-5 max-w-none prose-headings:scroll-mt-24 prose-headings:text-white prose-p:text-white/70 prose-li:text-white/70 prose-strong:text-white prose-a:text-white/80 prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-white prose-pre:border prose-pre:border-white/10 prose-pre:bg-white/[0.03] prose-pre:backdrop-blur prose-code:text-white/90 prose-code:bg-white/[0.05] prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md"
+              className="markdown-body mt-5"
               dangerouslySetInnerHTML={{ __html: skillDocHtml }}
             />
           </div>
