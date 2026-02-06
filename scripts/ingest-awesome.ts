@@ -212,23 +212,37 @@ async function main() {
       .filter((l) => looksLikeRepo(l.url))
       .slice(0, 4000);
 
-    for (const l of links) {
-      const repoUrl = normalizeRepoUrl(l.url);
-      const name = l.text.trim();
+    console.log(`[awesome] ${src.name}: links=${links.length}`);
 
-      // Basic heuristics: many awesome lists have `- [name](repo) - desc`.
-      const m = l.line.match(/\)\s*[-–—:]\s*(.+)$/);
-      const desc = m?.[1]?.trim();
+    const WRITE_CONCURRENCY = Number.parseInt(process.env.WRITE_CONCURRENCY ?? "6", 10);
 
-      await upsertSkill(
-        {
-          name,
-          description: desc || "",
-          repoUrl,
-          sourceUrl: src.url,
-        },
-        { kind: src.kind, name: src.name, url: src.url },
+    for (let i = 0; i < links.length; i += WRITE_CONCURRENCY) {
+      const batch = links.slice(i, i + WRITE_CONCURRENCY);
+
+      await Promise.all(
+        batch.map(async (l) => {
+          const repoUrl = normalizeRepoUrl(l.url);
+          const name = l.text.trim();
+
+          // Basic heuristics: many awesome lists have `- [name](repo) - desc`.
+          const m = l.line.match(/\)\s*[-–—:]\s*(.+)$/);
+          const desc = m?.[1]?.trim();
+
+          await upsertSkill(
+            {
+              name,
+              description: desc || "",
+              repoUrl,
+              sourceUrl: src.url,
+            },
+            { kind: src.kind, name: src.name, url: src.url },
+          );
+        }),
       );
+
+      if ((i + batch.length) % 50 === 0 || i + batch.length === links.length) {
+        console.log(`[awesome] ${src.name}: upserted ${i + batch.length}/${links.length}`);
+      }
     }
 
     // checkpoint for observability (per-source)
