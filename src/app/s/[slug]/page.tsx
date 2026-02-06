@@ -4,7 +4,7 @@ import { skills, skillSources, sources } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { githubToRawUrl } from "@/lib/githubRaw";
+import { docCandidatesFromEntryUrl } from "@/lib/githubRaw";
 import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 
@@ -39,22 +39,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-async function fetchSkillMarkdown(entryUrl?: string | null): Promise<{ rawUrl: string; markdown: string } | null> {
+async function fetchBestDoc(entryUrl?: string | null): Promise<{ rawUrl: string; markdown: string; label: string } | null> {
   if (!entryUrl) return null;
-  const rawUrl = githubToRawUrl(entryUrl);
-  if (!rawUrl) return null;
 
-  // Only fetch markdown-ish files.
-  if (!/\.(md|mdx)$/i.test(rawUrl) && !/\/SKILL\.md$/i.test(rawUrl)) return null;
+  const candidates = docCandidatesFromEntryUrl(entryUrl);
+  if (candidates.length === 0) return null;
 
-  const res = await fetch(rawUrl, {
-    // Keep it reasonably fresh without hammering GitHub.
-    next: { revalidate: 60 * 30 },
-  });
-  if (!res.ok) return null;
-  const markdown = await res.text();
-  if (!markdown.trim()) return null;
-  return { rawUrl, markdown };
+  for (const c of candidates) {
+    const res = await fetch(c.rawUrl, {
+      // Keep it reasonably fresh without hammering GitHub.
+      next: { revalidate: 60 * 30 },
+    });
+    if (!res.ok) continue;
+    const markdown = await res.text();
+    if (!markdown.trim()) continue;
+    return { rawUrl: c.rawUrl, markdown, label: c.label };
+  }
+
+  return null;
 }
 
 function renderMarkdownSafe(md: string): string {
@@ -106,7 +108,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
     .innerJoin(sources, eq(skillSources.sourceId, sources.id))
     .where(eq(skillSources.skillId, s.id));
 
-  const skillDoc = await fetchSkillMarkdown(s.sourceUrl);
+  const skillDoc = await fetchBestDoc(s.sourceUrl);
   const skillDocHtml = skillDoc ? renderMarkdownSafe(skillDoc.markdown) : null;
 
   const jsonLd = {
@@ -215,8 +217,13 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-white/80">SKILL.md</div>
-                <div className="mt-1 text-xs text-white/45">Rendered from <a className="underline underline-offset-4 hover:text-white/70" href={skillDoc!.rawUrl} target="_blank" rel="noreferrer">GitHub raw</a></div>
+                <div className="text-sm font-semibold text-white/80">{skillDoc?.label ?? "Doc"}</div>
+                <div className="mt-1 text-xs text-white/45">
+                  Rendered from{" "}
+                  <a className="underline underline-offset-4 hover:text-white/70" href={skillDoc!.rawUrl} target="_blank" rel="noreferrer">
+                    GitHub raw
+                  </a>
+                </div>
               </div>
               {skillDoc?.rawUrl ? (
                 <a className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/60 hover:bg-white/10" href={skillDoc.rawUrl} target="_blank" rel="noreferrer">
