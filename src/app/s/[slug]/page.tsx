@@ -5,8 +5,17 @@ import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { docCandidatesFromEntryUrl } from "@/lib/githubRaw";
-import { marked } from "marked";
-import sanitizeHtml from "sanitize-html";
+import GithubSlugger from "github-slugger";
+
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSanitize from "rehype-sanitize";
+import rehypeStringify from "rehype-stringify";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -59,32 +68,46 @@ async function fetchBestDoc(entryUrl?: string | null): Promise<{ rawUrl: string;
   return null;
 }
 
-function renderMarkdownSafe(md: string): string {
-  const html = marked.parse(md) as string;
-  return sanitizeHtml(html, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat([
-      "img",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "pre",
-      "code",
-      "blockquote",
-      "hr",
-    ]),
-    allowedAttributes: {
-      a: ["href", "name", "target", "rel"],
-      img: ["src", "alt", "title"],
-      code: ["class"],
-      pre: ["class"],
-      '*': ["class"],
-    },
-    allowedSchemes: ["http", "https", "mailto"],
-    transformTags: {
-      a: sanitizeHtml.simpleTransform("a", { target: "_blank", rel: "noreferrer" }),
-    },
-  });
+function extractHeadings(md: string, maxDepth = 3) {
+  const slugger = new GithubSlugger();
+  const out: Array<{ depth: number; text: string; id: string }> = [];
+
+  for (const line of md.split(/\r?\n/)) {
+    const m = line.match(/^(#{1,6})\s+(.+?)\s*#*\s*$/);
+    if (!m) continue;
+    const depth = m[1]!.length;
+    if (depth > maxDepth) continue;
+    const text = m[2]!.trim();
+    if (!text) continue;
+    const id = slugger.slug(text);
+    out.push({ depth, text, id });
+  }
+
+  return out;
+}
+
+async function renderMarkdownHtml(md: string): Promise<string> {
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype, { allowDangerousHtml: false })
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, {
+      behavior: "wrap",
+      properties: {
+        className: ["heading-anchor"],
+      },
+    })
+    .use(rehypePrettyCode, {
+      theme: "github-dark",
+      keepBackground: false,
+    })
+    // Conservative sanitization (we don't allow raw HTML from markdown)
+    .use(rehypeSanitize)
+    .use(rehypeStringify)
+    .process(md);
+
+  return String(file);
 }
 
 export default async function SkillPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -109,7 +132,8 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
     .where(eq(skillSources.skillId, s.id));
 
   const skillDoc = await fetchBestDoc(s.sourceUrl);
-  const skillDocHtml = skillDoc ? renderMarkdownSafe(skillDoc.markdown) : null;
+  const toc = skillDoc ? extractHeadings(skillDoc.markdown, 3) : [];
+  const skillDocHtml = skillDoc ? await renderMarkdownHtml(skillDoc.markdown) : null;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -232,8 +256,25 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
               ) : null}
             </div>
 
+            {toc.length ? (
+              <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+                <div className="text-xs font-semibold uppercase tracking-wider text-white/40">On this page</div>
+                <div className="mt-3 space-y-2 text-sm">
+                  {toc.map((h) => (
+                    <a
+                      key={h.id}
+                      href={`#${h.id}`}
+                      className={`block text-white/60 hover:text-white ${h.depth === 2 ? "pl-3" : h.depth >= 3 ? "pl-6" : ""}`}
+                    >
+                      {h.text}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
             <article
-              className="prose prose-invert mt-5 max-w-none prose-headings:scroll-mt-24 prose-headings:text-white prose-p:text-white/70 prose-li:text-white/70 prose-strong:text-white prose-a:text-white/80 prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-white"
+              className="prose prose-invert mt-5 max-w-none prose-headings:scroll-mt-24 prose-headings:text-white prose-p:text-white/70 prose-li:text-white/70 prose-strong:text-white prose-a:text-white/80 prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-white prose-pre:border prose-pre:border-white/10 prose-pre:bg-white/[0.03] prose-pre:backdrop-blur prose-code:text-white/90 prose-code:bg-white/[0.05] prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md"
               dangerouslySetInnerHTML={{ __html: skillDocHtml }}
             />
           </div>
