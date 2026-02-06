@@ -219,8 +219,22 @@ async function main() {
     for (let i = 0; i < links.length; i += WRITE_CONCURRENCY) {
       const batch = links.slice(i, i + WRITE_CONCURRENCY);
 
+      const withTimeout = async <T,>(p: Promise<T>, ms: number, label: string) => {
+        let t: NodeJS.Timeout | null = null;
+        try {
+          return await Promise.race([
+            p,
+            new Promise<T>((_, rej) => {
+              t = setTimeout(() => rej(new Error(`timeout after ${ms}ms: ${label}`)), ms);
+            }),
+          ]);
+        } finally {
+          if (t) clearTimeout(t);
+        }
+      };
+
       await Promise.all(
-        batch.map(async (l) => {
+        batch.map(async (l, j) => {
           const repoUrl = normalizeRepoUrl(l.url);
           const name = l.text.trim();
 
@@ -228,15 +242,27 @@ async function main() {
           const m = l.line.match(/\)\s*[-–—:]\s*(.+)$/);
           const desc = m?.[1]?.trim();
 
-          await upsertSkill(
-            {
-              name,
-              description: desc || "",
-              repoUrl,
-              sourceUrl: src.url,
-            },
-            { kind: src.kind, name: src.name, url: src.url },
-          );
+          const n = i + j + 1;
+          if (n % 10 === 0) console.log(`[awesome] ${src.name}: working ${n}/${links.length} (${repoUrl})`);
+
+          try {
+            await withTimeout(
+              upsertSkill(
+                {
+                  name,
+                  description: desc || "",
+                  repoUrl,
+                  // Use the specific entry URL when available (can include /tree/... paths)
+                  sourceUrl: l.url,
+                },
+                { kind: src.kind, name: src.name, url: src.url },
+              ),
+              20_000,
+              `upsertSkill ${repoUrl}`,
+            );
+          } catch (e) {
+            console.warn(`[awesome] WARN: failed at ${n}/${links.length} (${repoUrl}):`, e);
+          }
         }),
       );
 
