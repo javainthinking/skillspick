@@ -7,6 +7,17 @@ import { drizzle } from "drizzle-orm/postgres-js";
 type GlobalDb = { __pg?: postgres.Sql; __drizzle?: ReturnType<typeof drizzle> };
 const globalForDb = globalThis as unknown as GlobalDb;
 
+export function resetDb() {
+  try {
+    // best-effort close
+    globalForDb.__pg?.end({ timeout: 2 });
+  } catch {
+    // ignore
+  }
+  globalForDb.__pg = undefined;
+  globalForDb.__drizzle = undefined;
+}
+
 export function getDb() {
   if (globalForDb.__drizzle) return globalForDb.__drizzle;
 
