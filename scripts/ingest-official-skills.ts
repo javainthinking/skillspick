@@ -96,7 +96,7 @@ async function setState(
 async function listDir(src: TreeSource): Promise<ContentsItem[]> {
   const ref = src.ref ?? "main";
   const url = `https://api.github.com/repos/${src.owner}/${src.repo}/contents/${src.dirPath}?ref=${encodeURIComponent(ref)}`;
-  const json = await fetchJson<any>(url, {
+  const json = await fetchJson<unknown>(url, {
     headers: {
       // GitHub wants this for REST v3.
       accept: "application/vnd.github+json",

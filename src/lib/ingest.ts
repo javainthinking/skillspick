@@ -17,8 +17,9 @@ function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function isTransientDbError(err: any) {
-  const code = err?.code ?? err?.cause?.code;
+function isTransientDbError(err: unknown) {
+  const e = err as { code?: unknown; cause?: { code?: unknown } } | null;
+  const code = (e?.code ?? e?.cause?.code) as string | undefined;
   return code === "CONNECTION_CLOSED" || code === "ECONNRESET";
 }
 
@@ -149,7 +150,7 @@ export async function upsertSkill(skill: IngestSkill, source: { kind: string; na
         .onConflictDoNothing();
 
       return row;
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (!isTransientDbError(err) || attempt === maxAttempts) throw err;
 
       // Reset the cached DB client and retry.
