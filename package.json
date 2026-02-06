@@ -10,7 +10,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "ingest:awesome": "tsx scripts/ingest-awesome.ts",
-    "ingest:clawhub": "tsx scripts/ingest-clawhub.ts"
+    "ingest:clawhub": "tsx scripts/ingest-clawhub.ts",
+    "ingest:official": "tsx scripts/ingest-official-skills.ts"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.2.10",

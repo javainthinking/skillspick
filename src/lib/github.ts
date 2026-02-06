@@ -1,8 +1,10 @@
 export async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
+  const token = process.env.GITHUB_TOKEN;
   const res = await fetch(url, {
     ...init,
     headers: {
       accept: "application/json",
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
       ...(init?.headers ?? {}),
     },
     // keep serverless stable
