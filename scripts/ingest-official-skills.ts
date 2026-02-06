@@ -40,6 +40,15 @@ const SOURCES: TreeSource[] = [
     dirPath: "skills",
     ref: "main",
   },
+  {
+    kind: "github_tree",
+    name: "google-labs-code/stitch-skills:skills",
+    url: "https://github.com/google-labs-code/stitch-skills/tree/main/skills",
+    owner: "google-labs-code",
+    repo: "stitch-skills",
+    dirPath: "skills",
+    ref: "main",
+  },
 ];
 
 async function getState(db: ReturnType<typeof getDb>, src: TreeSource) {
