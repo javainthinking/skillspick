@@ -216,17 +216,30 @@ async function main() {
           );
 
           const owner = it.ownerHandle ?? null;
-          const sourceUrl = owner
+
+          // ClawHub skill pages correspond to directories in openclaw/skills.
+          // Example:
+          // - https://clawhub.ai/<owner>/<slug>
+          // - https://github.com/openclaw/skills/tree/main/skills/<owner>/<slug>
+          const clawhubUrl = owner
             ? `https://clawhub.ai/${encodeURIComponent(owner)}/${encodeURIComponent(it.skill.slug)}`
             : `https://clawhub.ai/skills?focus=search&q=${encodeURIComponent(it.skill.slug)}`;
+
+          const githubRepoUrl = "https://github.com/openclaw/skills";
+          const githubEntryUrl = owner
+            ? `https://github.com/openclaw/skills/tree/main/skills/${encodeURIComponent(owner)}/${encodeURIComponent(it.skill.slug)}`
+            : undefined;
 
           await upsertSkill(
             {
               name: it.skill.displayName,
               description: it.skill.summary ?? undefined,
-              homepageUrl,
-              repoUrl,
-              sourceUrl,
+              // Keep an outward link to ClawHub.
+              homepageUrl: homepageUrl ?? clawhubUrl,
+              // Prefer explicit repoUrl from frontmatter; otherwise use openclaw/skills.
+              repoUrl: repoUrl ?? githubRepoUrl,
+              // IMPORTANT: set entryUrl to GitHub directory so the detail page can render SKILL.md/README.
+              sourceUrl: githubEntryUrl ?? clawhubUrl,
               stars: it.skill.stats?.stars ?? undefined,
             },
             {
