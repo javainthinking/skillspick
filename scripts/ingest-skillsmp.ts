@@ -255,11 +255,13 @@ async function main() {
         if (upserted >= MAX_ITEMS) {
           console.log(`[skillsmp] reached MAX_ITEMS=${MAX_ITEMS}; stopping`);
           await setState(db, {
-            cursor: JSON.stringify({ qIndex: qi, page }),
+            // Resume from the *next* page for this query.
+            cursor: JSON.stringify({ qIndex: qi, page: page + 1 }),
             upsertedTotal: upserted,
             done: 0,
           });
-          break outer;
+          return; // stop early without marking done
+        
         }
       }
 
