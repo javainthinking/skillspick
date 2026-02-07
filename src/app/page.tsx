@@ -122,35 +122,20 @@ export default async function Home({ searchParams }: Props) {
   ];
 
   return (
-    <main className="min-h-screen">
-      <div className="mx-auto max-w-5xl px-4 py-6">
-        <header className="flex items-center justify-end">
-          <a
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/70 backdrop-blur hover:bg-white/10"
-            href="https://clawhub.ai/skills"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <img
-              src="https://clawhub.ai/clawd-logo.png"
-              alt="ClawHub"
-              className="h-4 w-4 rounded bg-white/5 p-0.5"
-              loading="lazy"
-              referrerPolicy="no-referrer"
-            />
-            <span>ClawHub</span>
-            <span className="text-white/40">↗</span>
-          </a>
-        </header>
+    <main className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(168,85,247,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(56,189,248,0.18),transparent_55%),radial-gradient(900px_500px_at_10%_20%,rgba(99,102,241,0.16),transparent_55%)]">
+      <div className="mx-auto max-w-5xl px-4 py-8">
+        <header className="flex items-center justify-end" />
 
-        <section className="mx-auto flex min-h-[55vh] max-w-2xl flex-col items-center justify-center text-center">
+        <section className="mx-auto flex min-h-[56vh] max-w-2xl flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl font-[var(--font-display)]">
             <span className="font-medium text-white/90">Pick</span>
-            <span className="ml-2 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent">
+            <span className="ml-2 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent drop-shadow-[0_0_22px_rgba(168,85,247,0.25)]">
               Skill
             </span>
           </h1>
-          <div className="mt-3 text-base text-white/55">A minimal search engine for AI agent skills.</div>
+          <div className="mt-3 text-base leading-relaxed text-white/55">
+            A minimal search engine for AI agent skills.
+          </div>
 
           <div className="mt-4 flex items-center justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-white/60 backdrop-blur">
@@ -160,20 +145,23 @@ export default async function Home({ searchParams }: Props) {
             </div>
           </div>
 
-          <form method="GET" className="mt-8 w-full">
-            <div className="group flex w-full items-center gap-2 rounded-full border border-white/15 bg-white/5 p-2 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur transition hover:border-white/25 focus-within:border-white/30 focus-within:shadow-[0_16px_60px_rgba(168,85,247,0.10)]">
-              <input
-                name="q"
-                defaultValue={q}
-                placeholder="Search skills"
-                className="w-full bg-transparent px-4 py-3 text-base text-white/90 outline-none placeholder:text-white/35"
-              />
-              <button
-                type="submit"
-                className="shrink-0 rounded-full border border-white/25 bg-transparent px-5 py-3 text-sm font-semibold text-white/80 transition hover:border-white/35 hover:text-white group-focus-within:border-white/0 group-focus-within:bg-white group-focus-within:text-black"
-              >
-                Search
-              </button>
+          <form method="GET" className="mt-9 w-full">
+            <div className="group relative flex w-full items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] p-2 shadow-[0_16px_70px_rgba(0,0,0,0.55)] backdrop-blur transition hover:border-white/25 focus-within:border-white/30">
+              <div className="pointer-events-none absolute -inset-0.5 rounded-full bg-gradient-to-r from-fuchsia-500/30 via-indigo-500/20 to-cyan-400/20 opacity-0 blur-sm transition group-hover:opacity-100 group-focus-within:opacity-100" />
+              <div className="relative flex w-full items-center gap-2">
+                <input
+                  name="q"
+                  defaultValue={q}
+                  placeholder="Search skills"
+                  className="w-full bg-transparent px-5 py-3.5 text-lg text-white/90 outline-none placeholder:text-white/35"
+                />
+                <button
+                  type="submit"
+                  className="shrink-0 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-black transition hover:bg-white/90"
+                >
+                  Search
+                </button>
+              </div>
             </div>
 
             <div className="mt-4 text-sm text-white/50">
@@ -297,12 +285,12 @@ export default async function Home({ searchParams }: Props) {
                 <Link
                   key={s.id}
                   href={`/s/${s.slug}`}
-                  className="block rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:bg-white/[0.06]"
+                  className="group block rounded-2xl border border-white/10 bg-white/[0.035] p-6 shadow-[0_18px_70px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.06]"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="text-lg font-semibold text-white">{s.name}</div>
+                    <div className="text-lg font-semibold text-white transition group-hover:text-white">{s.name}</div>
                     {sourceLabel ? (
-                      <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/55">
+                      <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/55 transition group-hover:border-white/20 group-hover:bg-white/10">
                         {sourceIcon}
                         <span>{sourceLabel}</span>
                       </span>
@@ -311,9 +299,9 @@ export default async function Home({ searchParams }: Props) {
 
                   <div className="mt-2 line-clamp-2 text-base leading-relaxed text-white/60">{s.description || ""}</div>
 
-                  <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-white/45">
-                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">/{s.slug}</span>
-                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">⭐ {s.stars ?? 0}</span>
+                  <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-white/45">
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 transition group-hover:border-white/15 group-hover:bg-white/10">/{s.slug}</span>
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 transition group-hover:border-white/15 group-hover:bg-white/10">⭐ {s.stars ?? 0}</span>
                   </div>
                 </Link>
               );
