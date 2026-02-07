@@ -237,6 +237,22 @@ export default async function Home({ searchParams }: Props) {
               </a>
 
               <a
+                href="https://manus.im"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+              >
+                <img
+                  src="/brands/manus-64.png"
+                  alt="Manus"
+                  className="h-4 w-4 rounded opacity-90 group-hover:opacity-100"
+                  loading="lazy"
+                />
+                <span className="text-white/60 group-hover:text-white/80">Manus</span>
+                <span className="text-white/35">agent</span>
+              </a>
+
+              <a
                 href="https://antigravity.google"
                 target="_blank"
                 rel="noreferrer"
