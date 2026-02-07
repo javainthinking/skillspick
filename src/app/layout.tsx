@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/bricolage-grotesque";
@@ -43,6 +44,8 @@ export const metadata: Metadata = {
   },
 };
 
+const gaId = process.env.NEXT_PUBLIC_GA4_ID || "G-621YMBCJPG";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -50,6 +53,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Google tag (gtag.js) - GA4 */}
+        <Script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+        <Script
+          id="ga4-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);} 
+gtag('js', new Date());
+gtag('config', '${gaId}');`,
+          }}
+        />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );
