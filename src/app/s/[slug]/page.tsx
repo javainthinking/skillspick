@@ -114,6 +114,21 @@ function manusImportUrl(githubUrl: string) {
   return `https://manus.im/import-skills?githubUrl=${encodeURIComponent(githubUrl)}&utm_source=nav_pickskill`;
 }
 
+function bestGithubUrlForManus(urls: Array<string | null | undefined>) {
+  const gh = urls.filter((u): u is string => !!u && /github\.com\//i.test(u));
+  if (!gh.length) return null;
+
+  // Prefer a concrete folder view (tree) over repo root.
+  const tree = gh.find((u) => /\/tree\//i.test(u));
+  if (tree) return tree;
+
+  // If it's a file view, it might still work for some importers, but usually Manus expects a folder.
+  const blob = gh.find((u) => /\/blob\//i.test(u));
+  if (blob) return blob;
+
+  return gh[0] ?? null;
+}
+
 export default async function SkillPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const db = getDb();
@@ -135,7 +150,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
     .innerJoin(sources, eq(skillSources.sourceId, sources.id))
     .where(eq(skillSources.skillId, s.id));
 
-  const githubEntryUrl = [s.repoUrl, s.sourceUrl].find((u) => !!u && /github\.com\//i.test(u)) || null;
+  // Manus import works best when githubUrl points at the *skill folder* (usually a /tree/... URL).
+  // So prefer the same GitHub URL we use for the primary "Open Entry" when it is a /tree/... link.
+  const githubEntryUrl = bestGithubUrlForManus([s.sourceUrl, s.repoUrl]);
   const manusUrl = githubEntryUrl ? manusImportUrl(githubEntryUrl) : null;
 
   const skillDoc = await fetchBestDoc(s.sourceUrl);
