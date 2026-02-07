@@ -150,10 +150,10 @@ export default async function Home({ searchParams }: Props) {
               Skill
             </span>
           </h1>
-          <div className="mt-3 text-sm text-white/50">A minimal search engine for AI agent skills.</div>
+          <div className="mt-3 text-base text-white/55">A minimal search engine for AI agent skills.</div>
 
           <div className="mt-4 flex items-center justify-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-white/55 backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-white/60 backdrop-blur">
               <span className="text-white/35">Total</span>
               <span className="font-semibold text-white/75">{Intl.NumberFormat().format(totalSkills)}</span>
               <span className="text-white/35">skills indexed</span>
@@ -176,7 +176,7 @@ export default async function Home({ searchParams }: Props) {
               </button>
             </div>
 
-            <div className="mt-4 text-xs text-white/45">
+            <div className="mt-4 text-sm text-white/50">
               {q ? (
                 <>
                   Showing top {rows.length} results for <span className="text-white/75">“{q}”</span> ·{" "}
@@ -272,21 +272,52 @@ export default async function Home({ searchParams }: Props) {
         </section>
 
         <section className="mx-auto max-w-3xl pb-14">
-          <div className="mb-3 text-xs font-medium uppercase tracking-wider text-white/35">
+          <div className="mb-3 text-sm font-medium uppercase tracking-wider text-white/35">
             {q ? "Results" : "Recently seen"}
           </div>
 
           <div className="space-y-4">
-            {rows.map((s) => (
-              <Link key={s.id} href={`/s/${s.slug}`} className="block rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:bg-white/[0.06]">
-                <div className="text-base font-semibold text-white">{s.name}</div>
-                <div className="mt-1 line-clamp-2 text-sm text-white/55">{s.description || ""}</div>
-                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-white/40">
-                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1">/{s.slug}</span>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1">⭐ {s.stars ?? 0}</span>
-                </div>
-              </Link>
-            ))}
+            {rows.map((s) => {
+              const sourceKind = s.sourceUrl?.includes("clawhub.ai") ? "clawhub" : s.repoUrl?.includes("github.com") ? "github" : null;
+              const sourceLabel = sourceKind === "clawhub" ? "ClawHub" : sourceKind === "github" ? "GitHub" : null;
+              const sourceIcon =
+                sourceKind === "clawhub" ? (
+                  <img
+                    src="https://clawhub.ai/clawd-logo.png"
+                    alt="ClawHub"
+                    className="h-4 w-4 rounded bg-white/5 p-0.5 opacity-90"
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : sourceKind === "github" ? (
+                  <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-85" />
+                ) : null;
+
+              return (
+                <Link
+                  key={s.id}
+                  href={`/s/${s.slug}`}
+                  className="block rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:bg-white/[0.06]"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="text-lg font-semibold text-white">{s.name}</div>
+                    {sourceLabel ? (
+                      <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/55">
+                        {sourceIcon}
+                        <span>{sourceLabel}</span>
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="mt-2 line-clamp-2 text-base leading-relaxed text-white/60">{s.description || ""}</div>
+
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-white/45">
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">/{s.slug}</span>
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">⭐ {s.stars ?? 0}</span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           {q && rows.length === 0 ? (
@@ -314,7 +345,7 @@ export default async function Home({ searchParams }: Props) {
             </div>
           </div>
 
-          <footer className="mt-12 text-center text-xs text-white/30">
+          <footer className="mt-12 text-center text-sm text-white/30">
             Data sources: ClawHub + Awesome lists.
           </footer>
         </section>
