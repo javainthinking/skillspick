@@ -110,6 +110,10 @@ async function renderMarkdownHtml(md: string): Promise<string> {
   return String(file);
 }
 
+function manusImportUrl(githubUrl: string) {
+  return `https://manus.im/import-skills?githubUrl=${encodeURIComponent(githubUrl)}&utm_source=nav_pickskill`;
+}
+
 export default async function SkillPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const db = getDb();
@@ -130,6 +134,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
     .from(skillSources)
     .innerJoin(sources, eq(skillSources.sourceId, sources.id))
     .where(eq(skillSources.skillId, s.id));
+
+  const githubEntryUrl = [s.repoUrl, s.sourceUrl].find((u) => !!u && /github\.com\//i.test(u)) || null;
+  const manusUrl = githubEntryUrl ? manusImportUrl(githubEntryUrl) : null;
 
   const skillDoc = await fetchBestDoc(s.sourceUrl);
   const toc = skillDoc ? extractHeadings(skillDoc.markdown, 3) : [];
@@ -154,23 +161,41 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
         <h1 className="mt-4 text-3xl font-extrabold tracking-tight">{s.name}</h1>
         <p className="mt-3 text-white/70">{s.description}</p>
 
-        <div className="mt-6 flex flex-col gap-4">
-          {/* Primary CTA: entry link */}
-          {s.sourceUrl ? (
-            <a
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-indigo-500 to-cyan-400 px-4 py-3 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(168,85,247,0.25)] transition hover:opacity-95"
-              href={s.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-              title={s.sourceUrl}
-            >
-              <span className="inline-flex items-center gap-2">
-                <img src="/brands/github.svg" alt="Entry" className="h-4 w-4 opacity-95" />
-                <span>Open Entry</span>
-                <span className="text-white/90">↗</span>
-              </span>
-            </a>
-          ) : null}
+        <div className="mt-6 flex flex-col gap-3">
+          {/* Primary CTAs */}
+          <div className="grid gap-2 sm:grid-cols-2">
+            {s.sourceUrl ? (
+              <a
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-indigo-500 to-cyan-400 px-4 py-3 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(168,85,247,0.25)] transition hover:opacity-95"
+                href={s.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                title={s.sourceUrl}
+              >
+                <span className="inline-flex items-center gap-2">
+                  <img src="/brands/github.svg" alt="Entry" className="h-4 w-4 opacity-95" />
+                  <span>Open Entry</span>
+                  <span className="text-white/90">↗</span>
+                </span>
+              </a>
+            ) : null}
+
+            {manusUrl ? (
+              <a
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white/90 shadow-[0_18px_60px_rgba(0,0,0,0.20)] backdrop-blur transition hover:bg-white/10"
+                href={manusUrl}
+                target="_blank"
+                rel="noreferrer"
+                title="Run this skill in Manus"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <img src="/brands/manus-64.png" alt="Manus" className="h-4 w-4 rounded opacity-90 group-hover:opacity-100" />
+                  <span>Run Skill in Manus</span>
+                  <span className="text-white/50">↗</span>
+                </span>
+              </a>
+            ) : null}
+          </div>
 
           {/* Secondary links */}
           <div className="flex flex-wrap gap-2 text-sm">
