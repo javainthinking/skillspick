@@ -1,0 +1,21 @@
+{
+  "runTime": "08:00",
+  "timeZone": "Asia/Shanghai",
+  "usernames": [
+    "lucas.lopes.art",
+    "helen.c.stark",
+    "jadesummercoloring",
+    "ellie_hooi_illustration",
+    "sue_rahel",
+    "wuthipol.designs",
+    "colorsbysue",
+    "skybambi",
+    "linzaoyu",
+    "dreiviertel_art",
+    "inkypaperhouse"
+  ],
+  "maxImagesPerPost": 16,
+  "includeSourceLink": true,
+  "titleTemplate": "{username}｜今日更新",
+  "digestTemplate": "来自 Instagram：@{username}（自动搬运测试，请人工审核后发布）"
+}
