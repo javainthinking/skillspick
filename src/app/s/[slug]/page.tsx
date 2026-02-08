@@ -214,6 +214,56 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
             ) : null}
           </div>
 
+          {/* How to load & run skills */}
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="text-xs font-semibold uppercase tracking-wider text-white/40">How to load & run skills</div>
+            <div className="mt-3 flex flex-wrap gap-2 text-sm">
+              <a
+                href="https://code.claude.com/docs/en/skills"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+              >
+                <img src="/brands/claude.ico" alt="Claude" className="h-4 w-4 opacity-85 group-hover:opacity-100" />
+                <span>Claude Code</span>
+                <span className="text-white/35">↗</span>
+              </a>
+
+              <a
+                href="https://developers.openai.com/codex/skills/"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+              >
+                <img src="/brands/openai.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <span>OpenAI Codex</span>
+                <span className="text-white/35">↗</span>
+              </a>
+
+              <a
+                href="https://cursor.com/docs/context/skills"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+              >
+                <img src="/brands/cursor.ico" alt="Cursor" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <span>Cursor</span>
+                <span className="text-white/35">↗</span>
+              </a>
+
+              <a
+                href="https://antigravity.google/docs/skills"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+              >
+                <img src="/brands/antigravity.png" alt="Antigravity" className="h-4 w-4 opacity-85 group-hover:opacity-100" loading="lazy" />
+                <span>Antigravity</span>
+                <span className="text-white/35">↗</span>
+              </a>
+            </div>
+          </div>
+
           {/* Secondary links */}
           <div className="flex flex-wrap gap-2 text-sm">
             {s.repoUrl ? (
