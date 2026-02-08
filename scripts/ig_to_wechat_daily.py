@@ -97,13 +97,15 @@ def fetch_latest_shortcode(username: str) -> tuple[str | None, str | None]:
 
     cmd = [
         "instaloader",
+        "--quiet",
+        "--max-connection-attempts=1",
+        "--request-timeout=60",
         "--no-pictures",
         "--no-videos",
         "--no-compress-json",
         "--count=1",
         "--dirname-pattern",
         str(tmp_dir),
-        "profile",
         username,
     ]
     try:
@@ -128,6 +130,9 @@ def download_post(username: str, shortcode: str) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     cmd = [
         "instaloader",
+        "--quiet",
+        "--max-connection-attempts=1",
+        "--request-timeout=120",
         "--dirname-pattern",
         str(out_dir),
         "--filename-pattern",
