@@ -14,6 +14,9 @@
     "dreiviertel_art",
     "inkypaperhouse"
   ],
+  "instaloader": {
+    "loadCookies": "chrome"
+  },
   "maxImagesPerPost": 16,
   "includeSourceLink": true,
   "titleTemplate": "{username}｜今日更新",

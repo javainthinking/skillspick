@@ -5,6 +5,9 @@
     "example_creator_1",
     "example_creator_2"
   ],
+  "instaloader": {
+    "loadCookies": "chrome"
+  },
   "maxImagesPerPost": 16,
   "includeSourceLink": true,
   "titleTemplate": "{username}｜今日更新",

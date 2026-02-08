@@ -40,6 +40,7 @@ class Config:
     include_source_link: bool = True
     title_template: str = "{username}｜今日更新"
     digest_template: str = "来自 Instagram：@{username}（自动搬运测试，请人工审核后发布）"
+    instaloader_load_cookies: str | None = None
 
 
 def load_config() -> Config:
@@ -49,6 +50,7 @@ def load_config() -> Config:
             f"Copy ig-wechat/config.example.json -> ig-wechat/config.json and edit usernames."
         )
     data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    inst = data.get("instaloader", {}) or {}
     return Config(
         usernames=data.get("usernames", []),
         max_images=int(data.get("maxImagesPerPost", 16)),
@@ -58,6 +60,7 @@ def load_config() -> Config:
             "digestTemplate",
             "来自 Instagram：@{username}（自动搬运测试，请人工审核后发布）",
         ),
+        instaloader_load_cookies=inst.get("loadCookies"),
     )
 
 
@@ -74,6 +77,13 @@ def save_state(state: dict) -> None:
 
 def run(cmd: list[str], timeout: int = 120) -> str:
     return subprocess.check_output(cmd, stderr=subprocess.STDOUT, text=True, timeout=timeout)
+
+
+def instaloader_auth_args() -> list[str]:
+    args: list[str] = []
+    if cfg.instaloader_load_cookies:
+        args += ["--load-cookies", cfg.instaloader_load_cookies]
+    return args
 
 
 def fetch_latest_shortcode(username: str) -> tuple[str | None, str | None]:
@@ -100,6 +110,7 @@ def fetch_latest_shortcode(username: str) -> tuple[str | None, str | None]:
         "--quiet",
         "--max-connection-attempts=1",
         "--request-timeout=60",
+        *instaloader_auth_args(),
         "--no-pictures",
         "--no-videos",
         "--no-compress-json",
@@ -133,6 +144,7 @@ def download_post(username: str, shortcode: str) -> Path:
         "--quiet",
         "--max-connection-attempts=1",
         "--request-timeout=120",
+        *instaloader_auth_args(),
         "--dirname-pattern",
         str(out_dir),
         "--filename-pattern",
