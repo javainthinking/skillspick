@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SiteHeader } from "@/app/_components/SiteHeader";
 
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/bricolage-grotesque";
@@ -67,7 +68,10 @@ gtag('config', '${gaId}');`,
           }}
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased text-white">
+        <SiteHeader />
+        <div className="pt-14">{children}</div>
+      </body>
     </html>
   );
 }
