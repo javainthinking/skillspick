@@ -16,10 +16,15 @@ export function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 font-[var(--font-display)] backdrop-blur supports-[backdrop-filter]:bg-black/20">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 transition group-hover:bg-white/8 group-hover:ring-white/20">
-            <Image src="/white-pickskill.svg" alt="PickSkill" width={22} height={22} priority />
-          </span>
-          <span className="font-[var(--font-display)] text-[15px] font-semibold tracking-tight text-white/90 transition group-hover:text-white">
+          <Image
+            src="/white-pickskill.svg"
+            alt="PickSkill"
+            width={28}
+            height={28}
+            priority
+            className="opacity-90 transition group-hover:opacity-100"
+          />
+          <span className="text-[15px] font-semibold tracking-tight text-white/90 transition group-hover:text-white">
             PickSkill
           </span>
         </Link>
