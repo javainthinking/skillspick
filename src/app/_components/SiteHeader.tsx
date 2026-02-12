@@ -1,5 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Montserrat } from "next/font/google";
+
+const brandFont = Montserrat({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
 
 function ImportIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -13,9 +19,9 @@ function ImportIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function SiteHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 font-[var(--font-display)] backdrop-blur supports-[backdrop-filter]:bg-black/20">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur supports-[backdrop-filter]:bg-black/20">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-        <Link href="/" className="group flex items-center gap-2.5">
+        <Link href="/" className={`group flex items-center gap-2.5 ${brandFont.className}`}>
           <Image
             src="/white-pickskill.svg"
             alt="PickSkill"
@@ -24,11 +30,8 @@ export function SiteHeader() {
             priority
             className="opacity-90 transition group-hover:opacity-100"
           />
-          <span className="text-[17px] font-semibold tracking-tight transition group-hover:opacity-100">
-            <span className="font-medium text-white/90">Pick</span>
-            <span className="ml-1.5 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent drop-shadow-[0_0_18px_rgba(168,85,247,0.18)]">
-              Skill
-            </span>
+          <span className="text-[17px] font-semibold tracking-tight text-white/90 transition group-hover:text-white">
+            PickSkill
           </span>
         </Link>
 
