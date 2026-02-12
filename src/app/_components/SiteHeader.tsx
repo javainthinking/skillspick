@@ -13,7 +13,7 @@ function ImportIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function SiteHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur supports-[backdrop-filter]:bg-black/20">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 font-[var(--font-display)] backdrop-blur supports-[backdrop-filter]:bg-black/20">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="group flex items-center gap-2.5">
           <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10 transition group-hover:bg-white/8 group-hover:ring-white/20">
