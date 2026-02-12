@@ -24,8 +24,11 @@ export function SiteHeader() {
             priority
             className="opacity-90 transition group-hover:opacity-100"
           />
-          <span className="text-[15px] font-semibold tracking-tight text-white/90 transition group-hover:text-white">
-            PickSkill
+          <span className="text-[17px] font-semibold tracking-tight transition group-hover:opacity-100">
+            <span className="font-medium text-white/90">Pick</span>
+            <span className="ml-1.5 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent drop-shadow-[0_0_18px_rgba(168,85,247,0.18)]">
+              Skill
+            </span>
           </span>
         </Link>
 
