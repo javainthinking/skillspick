@@ -1,11 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/20 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
-        <Link href="/" className="font-[var(--font-display)] text-sm font-semibold tracking-tight text-white/90 hover:text-white">
-          PickSkill
+        <Link href="/" className="flex items-center gap-2 font-[var(--font-display)] text-sm font-semibold tracking-tight text-white/90 hover:text-white">
+          <Image src="/white-pickskill.svg" alt="PickSkill" width={18} height={18} priority />
+          <span>PickSkill</span>
         </Link>
 
         <nav className="flex items-center gap-4 text-sm">
