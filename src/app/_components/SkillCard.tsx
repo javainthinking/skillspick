@@ -34,7 +34,7 @@ export default function SkillCard({
     <Link
       key={s.id}
       href={`/s/${s.slug}`}
-      className="group block h-full rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-6 shadow-[0_18px_70px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
+      className="group block h-full rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-6 shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)] dark:shadow-[0_18px_70px_rgba(0,0,0,0.18)]"
     >
       <div className="text-lg font-semibold leading-snug text-[color:var(--ui-fg)] transition group-hover:text-[color:var(--foreground)]">{s.name}</div>
 

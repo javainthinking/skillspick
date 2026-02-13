@@ -2,22 +2,21 @@
 
 :root {
   /* theme tokens (light default) */
-  --background: #fbfbfe;
+  --background: #ffffff;
   --foreground: #0b0b10;
 
-  --ui-bg: rgba(0, 0, 0, 0.03);
-  --ui-bg-hover: rgba(0, 0, 0, 0.06);
-  --ui-border: rgba(0, 0, 0, 0.10);
-  --ui-border-strong: rgba(0, 0, 0, 0.18);
-  --ui-fg: rgba(0, 0, 0, 0.78);
-  --ui-fg-muted: rgba(0, 0, 0, 0.58);
-  --ui-fg-faint: rgba(0, 0, 0, 0.40);
+  /* clean white UI tokens */
+  --ui-bg: #ffffff;
+  --ui-bg-hover: #f6f7fb;
+  --ui-border: #e6e8f0;
+  --ui-border-strong: #cfd4e3;
+  --ui-fg: rgba(11, 11, 16, 0.88);
+  --ui-fg-muted: rgba(11, 11, 16, 0.62);
+  --ui-fg-faint: rgba(11, 11, 16, 0.42);
 
-  --body-bg: radial-gradient(900px circle at 50% 0%, rgba(168, 85, 247, 0.10), transparent 55%),
-    radial-gradient(900px circle at 100% 15%, rgba(59, 130, 246, 0.08), transparent 55%),
-    var(--background);
+  --body-bg: var(--background);
 
-  --selection-bg: rgba(168, 85, 247, 0.22);
+  --selection-bg: rgba(99, 102, 241, 0.18);
 
   /* typography (local bundled fonts via @fontsource-variable; no external fetch) */
   --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;

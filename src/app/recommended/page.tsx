@@ -50,7 +50,7 @@ export default async function RecommendedPage({ searchParams }: Props) {
   const rows = await rowsPromise;
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(168,85,247,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(56,189,248,0.18),transparent_55%),radial-gradient(900px_500px_at_10%_20%,rgba(99,102,241,0.16),transparent_55%)]">
+    <main className="min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8">
         <section className="mt-10">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">

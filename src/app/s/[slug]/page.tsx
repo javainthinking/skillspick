@@ -179,17 +179,17 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
   return (
     <main className="min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-10">
-        <Link href="/" className="text-sm text-white/60 hover:text-white/80">← Back</Link>
+        <Link href="/" className="text-sm text-[color:var(--ui-fg-muted)] hover:text-[color:var(--foreground)]">← Back</Link>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-3xl font-extrabold tracking-tight">{s.name}</h1>
           {s.highlighted ? (
-            <span className="inline-flex items-center rounded-full border border-white/10 bg-gradient-to-r from-fuchsia-500/25 via-indigo-500/20 to-cyan-400/20 px-3 py-1 text-xs font-semibold text-white/75">
+            <span className="inline-flex items-center rounded-full border border-[color:var(--ui-border)] bg-gradient-to-r from-fuchsia-500/25 via-indigo-500/20 to-cyan-400/20 px-3 py-1 text-xs font-semibold text-[color:var(--ui-fg)]">
               Highlighted
             </span>
           ) : null}
         </div>
-        <p className="mt-3 text-white/70">{s.description}</p>
+        <p className="mt-3 text-[color:var(--ui-fg-muted)]">{s.description}</p>
 
         <div className="mt-6 flex flex-col gap-3">
           {isAdmin ? <HighlightToggle skillId={s.id} initialHighlighted={Boolean(s.highlighted)} /> : null}
@@ -197,7 +197,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
           <div className="grid gap-2 sm:grid-cols-2">
             {s.sourceUrl ? (
               <a
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-indigo-500 to-cyan-400 px-4 py-3 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(168,85,247,0.25)] transition hover:opacity-95"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-indigo-500 to-cyan-400 px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(99,102,241,0.20)] transition hover:opacity-95"
                 href={s.sourceUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -206,14 +206,14 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 <span className="inline-flex items-center gap-2">
                   <img src="/brands/github.svg" alt="Entry" className="h-4 w-4 opacity-95" />
                   <span>Open Entry</span>
-                  <span className="text-white/90">↗</span>
+                  <span className="text-white/90 dark:text-white/90 text-black/60">↗</span>
                 </span>
               </a>
             ) : null}
 
             {manusUrl ? (
               <a
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white/90 shadow-[0_18px_60px_rgba(0,0,0,0.20)] backdrop-blur transition hover:bg-white/10"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-4 py-3 text-sm font-semibold text-[color:var(--ui-fg)] shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.20)]"
                 href={manusUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -222,58 +222,58 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 <span className="inline-flex items-center gap-2">
                   <img src="/brands/manus-64.png" alt="Manus" className="h-4 w-4 rounded opacity-90 group-hover:opacity-100" />
                   <span>Run Skill in Manus</span>
-                  <span className="text-white/50">↗</span>
+                  <span className="text-[color:var(--ui-fg-faint)]">↗</span>
                 </span>
               </a>
             ) : null}
           </div>
 
           {/* How to load & run skills */}
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="text-xs font-semibold uppercase tracking-wider text-white/40">How to load & run skills</div>
+          <div className="rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-4">
+            <div className="text-xs font-semibold uppercase tracking-wider text-[color:var(--ui-fg-faint)]">How to load & run skills</div>
             <div className="mt-3 flex flex-wrap gap-2 text-sm">
               <a
                 href="https://code.claude.com/docs/en/skills"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/claude.ico" alt="Claude" className="h-4 w-4 opacity-85 group-hover:opacity-100" />
                 <span>Claude Code</span>
-                <span className="text-white/35">↗</span>
+                <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
 
               <a
                 href="https://developers.openai.com/codex/skills/"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/openai.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
                 <span>OpenAI Codex</span>
-                <span className="text-white/35">↗</span>
+                <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
 
               <a
                 href="https://cursor.com/docs/context/skills"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/cursor.ico" alt="Cursor" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
                 <span>Cursor</span>
-                <span className="text-white/35">↗</span>
+                <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
 
               <a
                 href="https://antigravity.google/docs/skills"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white/65 hover:border-white/20 hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/antigravity.png" alt="Antigravity" className="h-4 w-4 opacity-85 group-hover:opacity-100" loading="lazy" />
                 <span>Antigravity</span>
-                <span className="text-white/35">↗</span>
+                <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
             </div>
           </div>
@@ -282,7 +282,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
           <div className="flex flex-wrap gap-2 text-sm">
             {s.repoUrl ? (
               <a
-                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
                 href={s.repoUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -290,20 +290,20 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
               >
                 <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
                 <span>Repo</span>
-                <span className="text-white/40">↗</span>
+                <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
             ) : null}
 
             {s.homepageUrl ? (
               <a
-                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
                 href={s.homepageUrl}
                 target="_blank"
                 rel="noreferrer"
                 title={s.homepageUrl}
               >
-                <span className="text-white/60 group-hover:text-white">Homepage</span>
-                <span className="text-white/40">↗</span>
+                <span className="text-[color:var(--ui-fg-muted)] group-hover:text-[color:var(--foreground)]">Homepage</span>
+                <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
             ) : null}
 
@@ -321,7 +321,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
             ) : isGitHubList ? (
               <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
             ) : (
-              <span className="grid h-4 w-4 place-items-center rounded bg-white/10 text-[10px] font-semibold text-white/70">
+              <span className="grid h-4 w-4 place-items-center rounded bg-[color:var(--ui-bg-hover)] text-[10px] font-semibold text-[color:var(--ui-fg-muted)]">
                 S
               </span>
             );
@@ -329,14 +329,14 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
             return (
               <a
                 key={src.id}
-                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
                 href={src.url}
                 target="_blank"
                 rel="noreferrer"
                 title={src.name}
               >
                 {icon}
-                <span className="text-white/60 group-hover:text-white/80">{isClawHub ? "ClawHub" : isGitHubList ? "GitHub list" : "Source"}</span>
+                <span className="text-[color:var(--ui-fg-muted)] group-hover:text-[color:var(--foreground)]">{isClawHub ? "ClawHub" : isGitHubList ? "GitHub list" : "Source"}</span>
               </a>
             );
             })}
@@ -344,33 +344,33 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
         </div>
 
         {skillDocHtml ? (
-          <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="mt-8 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-white/80">{skillDoc?.label ?? "Doc"}</div>
-                <div className="mt-1 text-xs text-white/45">
+                <div className="text-sm font-semibold text-[color:var(--ui-fg)]">{skillDoc?.label ?? "Doc"}</div>
+                <div className="mt-1 text-xs text-[color:var(--ui-fg-muted)]">
                   Rendered from{" "}
-                  <a className="underline underline-offset-4 hover:text-white/70" href={skillDoc!.rawUrl} target="_blank" rel="noreferrer">
+                  <a className="underline underline-offset-4 hover:text-[color:var(--foreground)]" href={skillDoc!.rawUrl} target="_blank" rel="noreferrer">
                     GitHub raw
                   </a>
                 </div>
               </div>
               {skillDoc?.rawUrl ? (
-                <a className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/60 hover:bg-white/10" href={skillDoc.rawUrl} target="_blank" rel="noreferrer">
+                <a className="rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 text-xs text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]" href={skillDoc.rawUrl} target="_blank" rel="noreferrer">
                   View raw ↗
                 </a>
               ) : null}
             </div>
 
             {toc.length ? (
-              <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                <div className="text-xs font-semibold uppercase tracking-wider text-white/40">On this page</div>
+              <div className="mt-5 rounded-xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-4">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[color:var(--ui-fg-faint)]">On this page</div>
                 <div className="mt-3 space-y-2 text-sm">
                   {toc.map((h) => (
                     <a
                       key={h.id}
                       href={`#${h.id}`}
-                      className={`block text-white/60 hover:text-white ${h.depth === 2 ? "pl-3" : h.depth >= 3 ? "pl-6" : ""}`}
+                      className={`block text-[color:var(--ui-fg-muted)] hover:text-[color:var(--foreground)] ${h.depth === 2 ? "pl-3" : h.depth >= 3 ? "pl-6" : ""}`}
                     >
                       {h.text}
                     </a>
@@ -385,9 +385,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
             />
           </div>
         ) : s.readmeMarkdown ? (
-          <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5">
-            <div className="text-sm font-semibold text-white/80">README (raw)</div>
-            <pre className="mt-3 max-h-[520px] overflow-auto whitespace-pre-wrap text-xs text-white/70">{s.readmeMarkdown}</pre>
+          <div className="mt-8 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-5">
+            <div className="text-sm font-semibold text-[color:var(--ui-fg)]">README (raw)</div>
+            <pre className="mt-3 max-h-[520px] overflow-auto whitespace-pre-wrap text-xs text-[color:var(--ui-fg-muted)]">{s.readmeMarkdown}</pre>
           </div>
         ) : null}
 
