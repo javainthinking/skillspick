@@ -35,18 +35,18 @@ export default function AdminPanel({ isAdmin }: { isAdmin: boolean }) {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <div className="rounded-2xl border border-white/15 bg-black/40 backdrop-blur px-4 py-3 shadow-[0_20px_80px_rgba(0,0,0,0.55)]">
+    <div className="w-full">
+      <div className="inline-flex flex-col rounded-2xl border border-white/15 bg-white/[0.03] backdrop-blur px-4 py-3 shadow-[0_18px_70px_rgba(0,0,0,0.35)]">
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="text-xs font-semibold uppercase tracking-wider text-white/60 hover:text-white/80"
+          className="text-left text-xs font-semibold uppercase tracking-wider text-white/60 hover:text-white/80"
         >
-          {isAdmin ? "Admin (ON)" : "Admin"}
+          {isAdmin ? "Admin (ON)" : "Admin login"}
         </button>
 
         {open ? (
-          <div className="mt-3 w-[260px]">
+          <div className="mt-3 w-[280px]">
             {isAdmin ? (
               <div className="space-y-2">
                 <div className="text-sm text-white/70">Logged in.</div>
