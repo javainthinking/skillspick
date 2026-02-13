@@ -4,6 +4,7 @@ import {
   timestamp,
   uuid,
   integer,
+  boolean,
   primaryKey,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
@@ -48,6 +49,11 @@ export const skills = pgTable(
     lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
 
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+
+    // admin curated recommendations
+    highlighted: boolean("highlighted").notNull().default(false),
+    highlightedAt: timestamp("highlighted_at", { withTimezone: true }),
+
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

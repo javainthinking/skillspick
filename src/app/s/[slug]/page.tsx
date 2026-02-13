@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { getDb } from "@/db";
 import { skills, skillSources, sources } from "@/db/schema";
+import HighlightToggle from "@/app/_components/HighlightToggle";
+import { verifyAdminCookieValue } from "@/lib/adminAuth";
 import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -130,6 +133,9 @@ function bestGithubUrlForManus(urls: Array<string | null | undefined>) {
 }
 
 export default async function SkillPage({ params }: { params: Promise<{ slug: string }> }) {
+  const jar = await cookies();
+  const isAdmin = verifyAdminCookieValue(jar.get("pickskill_admin")?.value);
+
   const { slug } = await params;
   const db = getDb();
   const row = await db.select().from(skills).where(eq(skills.slug, slug)).limit(1);
@@ -175,10 +181,18 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
       <div className="mx-auto max-w-3xl px-4 py-10">
         <Link href="/" className="text-sm text-white/60 hover:text-white/80">← Back</Link>
 
-        <h1 className="mt-4 text-3xl font-extrabold tracking-tight">{s.name}</h1>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-3xl font-extrabold tracking-tight">{s.name}</h1>
+          {s.highlighted ? (
+            <span className="inline-flex items-center rounded-full border border-white/10 bg-gradient-to-r from-fuchsia-500/25 via-indigo-500/20 to-cyan-400/20 px-3 py-1 text-xs font-semibold text-white/75">
+              Highlighted
+            </span>
+          ) : null}
+        </div>
         <p className="mt-3 text-white/70">{s.description}</p>
 
         <div className="mt-6 flex flex-col gap-3">
+          {isAdmin ? <HighlightToggle skillId={s.id} initialHighlighted={Boolean(s.highlighted)} /> : null}
           {/* Primary CTAs */}
           <div className="grid gap-2 sm:grid-cols-2">
             {s.sourceUrl ? (

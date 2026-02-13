@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { getDb } from "@/db";
 import { skills } from "@/db/schema";
-import { desc, ilike, or, sql } from "drizzle-orm";
+import { desc, ilike, or, sql, and, eq, isNotNull } from "drizzle-orm";
+import AdminPanel from "@/app/_components/AdminPanel";
+import { verifyAdminCookieValue } from "@/lib/adminAuth";
 
 import type { Metadata } from "next";
 
@@ -29,6 +32,9 @@ type Props = {
 };
 
 export default async function Home({ searchParams }: Props) {
+  const jar = await cookies();
+  const isAdmin = verifyAdminCookieValue(jar.get("pickskill_admin")?.value);
+
   const sp = (await searchParams) ?? {};
   const qRaw = Array.isArray(sp.q) ? sp.q[0] : sp.q;
   const q = (qRaw ?? "").trim();
@@ -39,6 +45,13 @@ export default async function Home({ searchParams }: Props) {
     .select({ value: sql<number>`count(*)` })
     .from(skills)
     .then((rows) => Number(rows[0]?.value ?? 0));
+
+  const highlightedPromise = db
+    .select()
+    .from(skills)
+    .where(and(eq(skills.highlighted, true), isNotNull(skills.highlightedAt)))
+    .orderBy(desc(skills.highlightedAt), desc(skills.stars))
+    .limit(12);
 
   const rowsPromise = q
     ? db
@@ -58,7 +71,7 @@ export default async function Home({ searchParams }: Props) {
         .limit(50)
     : db.select().from(skills).orderBy(desc(skills.lastSeenAt)).limit(12);
 
-  const [rows, totalSkills] = await Promise.all([rowsPromise, totalSkillsPromise]);
+  const [rows, totalSkills, highlighted] = await Promise.all([rowsPromise, totalSkillsPromise, highlightedPromise]);
 
   const faq = [
     {
@@ -125,6 +138,8 @@ export default async function Home({ searchParams }: Props) {
     <main className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(168,85,247,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(56,189,248,0.18),transparent_55%),radial-gradient(900px_500px_at_10%_20%,rgba(99,102,241,0.16),transparent_55%)]">
       <div className="mx-auto max-w-5xl px-4 py-8">
         <header className="flex items-center justify-end" />
+
+        <AdminPanel isAdmin={isAdmin} />
 
         <section className="mx-auto flex min-h-[56vh] max-w-2xl flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl font-[var(--font-display)]">
@@ -260,6 +275,33 @@ export default async function Home({ searchParams }: Props) {
         </section>
 
         <section className="mx-auto max-w-3xl pb-14">
+          {!q && highlighted.length ? (
+            <div className="mb-10">
+              <div className="mb-3 text-sm font-medium uppercase tracking-wider text-white/35">Recommended</div>
+              <div className="space-y-4">
+                {highlighted.map((s) => (
+                  <Link
+                    key={s.id}
+                    href={`/s/${s.slug}`}
+                    className="group block rounded-2xl border border-white/10 bg-white/[0.035] p-6 shadow-[0_18px_70px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.06]"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="text-lg font-semibold text-white transition group-hover:text-white">{s.name}</div>
+                      <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-gradient-to-r from-fuchsia-500/25 via-indigo-500/20 to-cyan-400/20 px-2.5 py-1 text-xs text-white/70">
+                        Highlighted
+                      </span>
+                    </div>
+                    <div className="mt-2 line-clamp-2 text-base leading-relaxed text-white/60">{s.description || ""}</div>
+                    <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-white/45">
+                      <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">/{s.slug}</span>
+                      <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">⭐ {s.stars ?? 0}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
           <div className="mb-3 text-sm font-medium uppercase tracking-wider text-white/35">
             {q ? "Results" : "Recently seen"}
           </div>
