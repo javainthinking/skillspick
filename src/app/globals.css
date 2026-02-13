@@ -77,15 +77,23 @@ h3 {
   border-radius: 12px;
 }
 
+.markdown-body {
+  color-scheme: light;
+}
+
+html.dark .markdown-body {
+  color-scheme: dark;
+}
+
 .markdown-body table th,
 .markdown-body table td {
-  border-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: var(--ui-border) !important;
 }
 
 .markdown-body table tr {
-  background: rgba(255, 255, 255, 0.02) !important;
+  background: var(--ui-bg) !important;
 }
 
 .markdown-body table tr:nth-child(2n) {
-  background: rgba(255, 255, 255, 0.035) !important;
+  background: var(--ui-bg-hover) !important;
 }

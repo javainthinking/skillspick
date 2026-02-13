@@ -32,12 +32,20 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link href="/" className={`group flex items-center gap-2.5 ${brandFont.className}`}>
           <Image
+            src="/black-pickskill.svg"
+            alt="PickSkill"
+            width={28}
+            height={28}
+            priority
+            className="opacity-90 transition group-hover:opacity-100 dark:hidden"
+          />
+          <Image
             src="/white-pickskill.svg"
             alt="PickSkill"
             width={28}
             height={28}
             priority
-            className="opacity-90 transition group-hover:opacity-100"
+            className="hidden opacity-90 transition group-hover:opacity-100 dark:block"
           />
           <span className="text-[17px] font-semibold tracking-tight text-[color:var(--ui-fg)] transition group-hover:text-[color:var(--foreground)]">
             PickSkill
@@ -48,15 +56,15 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/recommended"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3.5 py-2 text-sm font-semibold text-white/80 shadow-sm transition hover:border-white/25 hover:bg-white/[0.06]"
+            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3.5 py-2 text-sm font-semibold text-[color:var(--ui-fg)] shadow-sm transition hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
           >
-            <StarIcon className="h-4 w-4 text-fuchsia-200/90" />
+            <StarIcon className="h-4 w-4 text-fuchsia-500/80 dark:text-fuchsia-200/90" />
             <span>Recommended</span>
           </Link>
 
           <Link
             href="/import"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-white/20 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
+            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-white px-3.5 py-2 text-sm font-semibold text-black shadow-sm transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0 dark:border-white/20 dark:bg-white dark:text-black"
           >
             <ImportIcon className="h-4 w-4" />
             <span>Import</span>

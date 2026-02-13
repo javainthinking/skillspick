@@ -55,26 +55,26 @@ export default async function RecommendedPage({ searchParams }: Props) {
         <section className="mt-10">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-white">Recommended</h1>
-              <div className="mt-2 text-sm text-white/55">Highlighted skills curated by admin.</div>
+              <h1 className="text-3xl font-extrabold tracking-tight text-[color:var(--foreground)]">Recommended</h1>
+              <div className="mt-2 text-sm text-[color:var(--ui-fg-muted)]">Highlighted skills curated by admin.</div>
             </div>
 
             <form method="GET" className="w-full sm:max-w-md">
-              <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] p-2 backdrop-blur">
+              <div className="flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-2 backdrop-blur">
                 <input
                   name="q"
                   defaultValue={q}
                   placeholder="Search recommended skills"
-                  className="w-full bg-transparent px-4 py-2 text-sm text-white/90 outline-none placeholder:text-white/35"
+                  className="w-full bg-transparent px-4 py-2 text-sm text-[color:var(--ui-fg)] outline-none placeholder:text-[color:var(--ui-fg-faint)]"
                 />
                 <button type="submit" className="shrink-0 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90">
                   Search
                 </button>
               </div>
               {q ? (
-                <div className="mt-2 text-xs text-white/50">
-                  Filtering by <span className="text-white/75">“{q}”</span> ·{" "}
-                  <Link href="/recommended" className="underline underline-offset-4 hover:text-white/70">
+                <div className="mt-2 text-xs text-[color:var(--ui-fg-muted)]">
+                  Filtering by <span className="text-[color:var(--ui-fg)]">“{q}”</span> ·{" "}
+                  <Link href="/recommended" className="underline underline-offset-4 hover:text-[color:var(--foreground)]">
                     Clear
                   </Link>
                 </div>
@@ -89,7 +89,7 @@ export default async function RecommendedPage({ searchParams }: Props) {
               ))}
             </div>
           ) : (
-            <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-white/60">No recommended skills yet.</div>
+            <div className="mt-8 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-6 text-sm text-[color:var(--ui-fg-muted)]">No recommended skills yet.</div>
           )}
         </section>
       </div>

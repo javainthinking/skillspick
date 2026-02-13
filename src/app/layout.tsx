@@ -5,7 +5,7 @@ import ThemeProvider from "@/app/_components/ThemeProvider";
 
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/bricolage-grotesque";
-import "github-markdown-css/github-markdown-dark.css";
+import "github-markdown-css/github-markdown.css";
 
 import "./globals.css";
 

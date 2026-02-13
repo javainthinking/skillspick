@@ -134,33 +134,33 @@ export default async function Home({ searchParams }: Props) {
       <div className="mx-auto max-w-7xl px-4 py-8">
 
         <section className="mx-auto flex min-h-[56vh] max-w-4xl flex-col items-center justify-center text-center">
-          <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl font-[var(--font-display)]">
-            <span className="font-medium text-white/90">Pick</span>
+          <h1 className="text-5xl font-semibold tracking-tight text-[color:var(--foreground)] sm:text-6xl font-[var(--font-display)]">
+            <span className="font-medium text-[color:var(--ui-fg)]">Pick</span>
             <span className="ml-2 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent drop-shadow-[0_0_22px_rgba(168,85,247,0.25)]">
               Skill
             </span>
           </h1>
-          <div className="mt-3 text-base leading-relaxed text-white/55">
+          <div className="mt-3 text-base leading-relaxed text-[color:var(--ui-fg-muted)]">
             A minimal search engine for AI agent skills.
           </div>
 
           <div className="mt-4 flex items-center justify-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-sm text-white/60 backdrop-blur">
-              <span className="text-white/35">Total</span>
-              <span className="font-semibold text-white/75">{Intl.NumberFormat().format(totalSkills)}</span>
-              <span className="text-white/35">skills indexed</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-sm text-[color:var(--ui-fg-muted)] backdrop-blur">
+              <span className="text-[color:var(--ui-fg-faint)]">Total</span>
+              <span className="font-semibold text-[color:var(--ui-fg)]">{Intl.NumberFormat().format(totalSkills)}</span>
+              <span className="text-[color:var(--ui-fg-faint)]">skills indexed</span>
             </div>
           </div>
 
           <form method="GET" className="mt-9 w-full">
-            <div className="group relative flex w-full items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] p-2 shadow-[0_16px_70px_rgba(0,0,0,0.55)] backdrop-blur transition hover:border-white/25 focus-within:border-white/30">
+            <div className="group relative flex w-full items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-2 shadow-[0_16px_70px_rgba(0,0,0,0.25)] backdrop-blur transition hover:border-[color:var(--ui-border-strong)] focus-within:border-[color:var(--ui-border-strong)]">
               <div className="pointer-events-none absolute -inset-0.5 rounded-full bg-gradient-to-r from-fuchsia-500/30 via-indigo-500/20 to-cyan-400/20 opacity-0 blur-sm transition group-hover:opacity-100 group-focus-within:opacity-100" />
               <div className="relative flex w-full items-center gap-2">
                 <input
                   name="q"
                   defaultValue={q}
                   placeholder="Search skills"
-                  className="w-full bg-transparent px-5 py-3.5 text-lg text-white/90 outline-none placeholder:text-white/35"
+                  className="w-full bg-transparent px-5 py-3.5 text-lg text-[color:var(--ui-fg)] outline-none placeholder:text-[color:var(--ui-fg-faint)]"
                 />
                 <button
                   type="submit"
@@ -171,11 +171,11 @@ export default async function Home({ searchParams }: Props) {
               </div>
             </div>
 
-            <div className="mt-4 text-sm text-white/50">
+            <div className="mt-4 text-sm text-[color:var(--ui-fg-muted)]">
               {q ? (
                 <>
-                  Showing top {rows.length} results for <span className="text-white/75">“{q}”</span> ·{" "}
-                  <Link href="/" className="underline underline-offset-4 hover:text-white/70">
+                  Showing top {rows.length} results for <span className="text-[color:var(--ui-fg)]">“{q}”</span> ·{" "}
+                  <Link href="/" className="underline underline-offset-4 hover:text-[color:var(--foreground)]">
                     Clear
                   </Link>
                 </>
