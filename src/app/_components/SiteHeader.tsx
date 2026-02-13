@@ -20,7 +20,7 @@ function ImportIcon(props: React.SVGProps<SVGSVGElement>) {
 export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur supports-[backdrop-filter]:bg-black/20">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link href="/" className={`group flex items-center gap-2.5 ${brandFont.className}`}>
           <Image
             src="/white-pickskill.svg"

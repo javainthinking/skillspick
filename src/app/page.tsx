@@ -131,7 +131,7 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <main className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(168,85,247,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(56,189,248,0.18),transparent_55%),radial-gradient(900px_500px_at_10%_20%,rgba(99,102,241,0.16),transparent_55%)]">
-      <div className="mx-auto max-w-6xl px-4 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8">
 
         <section className="mx-auto flex min-h-[56vh] max-w-2xl flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl font-[var(--font-display)]">
@@ -266,7 +266,7 @@ export default async function Home({ searchParams }: Props) {
           </form>
         </section>
 
-        <section className="mx-auto max-w-5xl pb-14">
+        <section className="mx-auto max-w-6xl pb-14">
           {!q && highlighted.length ? (
             <div className="mb-10">
               <div className="mb-3 text-sm font-medium uppercase tracking-wider text-white/35">Recommended</div>
