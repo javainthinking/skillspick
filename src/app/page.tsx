@@ -303,14 +303,14 @@ export default async function Home({ searchParams }: Props) {
               {faq.map((item) => (
                 <details
                   key={item.q}
-                  className="group rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 open:bg-white/[0.06]"
+                  className="group rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-5 py-4 open:bg-[color:var(--ui-bg-hover)]"
                 >
-                  <summary className="cursor-pointer list-none select-none text-sm font-semibold text-white">
-                    <span className="mr-2 text-white/40 group-open:hidden">+</span>
-                    <span className="mr-2 text-white/40 hidden group-open:inline">−</span>
+                  <summary className="cursor-pointer list-none select-none text-sm font-semibold text-[color:var(--ui-fg)]">
+                    <span className="mr-2 text-[color:var(--ui-fg-faint)] group-open:hidden">+</span>
+                    <span className="mr-2 text-[color:var(--ui-fg-faint)] hidden group-open:inline">−</span>
                     {item.q}
                   </summary>
-                  <div className="mt-3 text-sm leading-relaxed text-white/60">{item.a}</div>
+                  <div className="mt-3 text-sm leading-relaxed text-[color:var(--ui-fg-muted)]">{item.a}</div>
                 </details>
               ))}
             </div>
