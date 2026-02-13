@@ -136,7 +136,10 @@ export default async function Home({ searchParams }: Props) {
         <section className="mx-auto flex min-h-[56vh] max-w-4xl flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-semibold tracking-tight text-[color:var(--foreground)] sm:text-6xl font-[var(--font-display)]">
             <span className="font-medium text-[color:var(--ui-fg)]">Pick</span>
-            <span className="ml-2 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent drop-shadow-[0_0_22px_rgba(168,85,247,0.25)]">
+            <span className="ml-2 bg-gradient-to-r from-fuchsia-300 via-indigo-300 to-cyan-200 bg-clip-text font-black text-transparent drop-shadow-[0_0_22px_rgba(168,85,247,0.25)] dark:inline hidden">
+              Skill
+            </span>
+            <span className="ml-2 font-black text-[color:var(--foreground)] dark:hidden inline">
               Skill
             </span>
           </h1>
@@ -184,58 +187,58 @@ export default async function Home({ searchParams }: Props) {
               )}
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-white/50">
-              <div className="mr-1 text-[11px] uppercase tracking-wider text-white/35">Works with</div>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-[color:var(--ui-fg-muted)]">
+              <div className="mr-1 text-[11px] uppercase tracking-wider text-[color:var(--ui-fg-faint)]">Works with</div>
 
               <a
                 href="https://cursor.com"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/cursor.ico" alt="Cursor" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
-                <span className="text-white/60 group-hover:text-white/80">Cursor</span>
-                <span className="text-white/35">IDE</span>
+                <span className="text-[color:var(--ui-fg)]">Cursor</span>
+                <span className="text-[color:var(--ui-fg-faint)]">IDE</span>
               </a>
 
               <a
                 href="https://claude.ai"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/claude.ico" alt="Claude" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
-                <span className="text-white/60 group-hover:text-white/80">Claude</span>
-                <span className="text-white/35">LLM</span>
+                <span className="text-[color:var(--ui-fg)]">Claude</span>
+                <span className="text-[color:var(--ui-fg-faint)]">LLM</span>
               </a>
 
               <a
                 href="https://openai.com/codex"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/openai.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
-                <span className="text-white/60 group-hover:text-white/80">Codex</span>
-                <span className="text-white/35">OpenAI</span>
+                <span className="text-[color:var(--ui-fg)]">Codex</span>
+                <span className="text-[color:var(--ui-fg-faint)]">OpenAI</span>
               </a>
 
               <a
                 href="https://openclaw.ai"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img src="/brands/openclaw.svg" alt="OpenClaw" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
-                <span className="text-white/60 group-hover:text-white/80">OpenClaw</span>
-                <span className="text-white/35">Agents</span>
+                <span className="text-[color:var(--ui-fg)]">OpenClaw</span>
+                <span className="text-[color:var(--ui-fg-faint)]">Agents</span>
               </a>
 
               <a
                 href="https://manus.im"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img
                   src="/brands/manus-64.png"
@@ -243,15 +246,15 @@ export default async function Home({ searchParams }: Props) {
                   className="h-4 w-4 rounded opacity-90 group-hover:opacity-100"
                   loading="lazy"
                 />
-                <span className="text-white/60 group-hover:text-white/80">Manus</span>
-                <span className="text-white/35">agent</span>
+                <span className="text-[color:var(--ui-fg)]">Manus</span>
+                <span className="text-[color:var(--ui-fg-faint)]">agent</span>
               </a>
 
               <a
                 href="https://antigravity.google"
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 backdrop-blur hover:border-white/20 hover:bg-white/[0.06]"
+                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
                 <img
                   src="/brands/antigravity.png"
@@ -259,8 +262,8 @@ export default async function Home({ searchParams }: Props) {
                   className="h-4 w-4 opacity-85 group-hover:opacity-100"
                   loading="lazy"
                 />
-                <span className="text-white/60 group-hover:text-white/80">Antigravity</span>
-                <span className="text-white/35">tools</span>
+                <span className="text-[color:var(--ui-fg)]">Antigravity</span>
+                <span className="text-[color:var(--ui-fg-faint)]">tools</span>
               </a>
             </div>
           </form>
