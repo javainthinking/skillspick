@@ -178,7 +178,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
 
   return (
     <main className="min-h-screen">
-      <div className="mx-auto max-w-3xl px-4 py-10">
+      <div className="mx-auto max-w-7xl px-4 py-10">
         <Link href="/" className="text-sm text-white/60 hover:text-white/80">← Back</Link>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
