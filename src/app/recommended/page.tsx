@@ -3,7 +3,6 @@ import { getDb } from "@/db";
 import { skills } from "@/db/schema";
 import { and, desc, eq, ilike, isNotNull, or } from "drizzle-orm";
 import type { Metadata } from "next";
-import TopNav from "@/app/_components/TopNav";
 import SkillCard from "@/app/_components/SkillCard";
 
 export const dynamic = "force-dynamic";
@@ -53,8 +52,6 @@ export default async function RecommendedPage({ searchParams }: Props) {
   return (
     <main className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(168,85,247,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(56,189,248,0.18),transparent_55%),radial-gradient(900px_500px_at_10%_20%,rgba(99,102,241,0.16),transparent_55%)]">
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <TopNav active="recommended" />
-
         <section className="mt-10">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
             <div>
@@ -86,7 +83,7 @@ export default async function RecommendedPage({ searchParams }: Props) {
           </div>
 
           {rows.length ? (
-            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {rows.map((s) => (
                 <SkillCard key={s.id} s={s} highlightedBadge />
               ))}

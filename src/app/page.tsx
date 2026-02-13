@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getDb } from "@/db";
 import { skills } from "@/db/schema";
 import { desc, ilike, or, sql, and, eq, isNotNull } from "drizzle-orm";
-import TopNav from "@/app/_components/TopNav";
 import SkillCard from "@/app/_components/SkillCard";
 
 import type { Metadata } from "next";
@@ -133,7 +132,6 @@ export default async function Home({ searchParams }: Props) {
   return (
     <main className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(168,85,247,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(56,189,248,0.18),transparent_55%),radial-gradient(900px_500px_at_10%_20%,rgba(99,102,241,0.16),transparent_55%)]">
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <TopNav active="home" />
 
         <section className="mx-auto flex min-h-[56vh] max-w-2xl flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl font-[var(--font-display)]">
@@ -272,7 +270,7 @@ export default async function Home({ searchParams }: Props) {
           {!q && highlighted.length ? (
             <div className="mb-10">
               <div className="mb-3 text-sm font-medium uppercase tracking-wider text-white/35">Recommended</div>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {highlighted.map((s) => (
                   <SkillCard key={s.id} s={s} highlightedBadge />
                 ))}
@@ -284,7 +282,7 @@ export default async function Home({ searchParams }: Props) {
             {q ? "Results" : "Recently seen"}
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {rows.map((s) => (
               <SkillCard key={s.id} s={s} />
             ))}

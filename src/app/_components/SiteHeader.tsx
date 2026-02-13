@@ -20,7 +20,7 @@ function ImportIcon(props: React.SVGProps<SVGSVGElement>) {
 export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur supports-[backdrop-filter]:bg-black/20">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link href="/" className={`group flex items-center gap-2.5 ${brandFont.className}`}>
           <Image
             src="/white-pickskill.svg"
@@ -35,7 +35,14 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="flex items-center gap-3 text-sm">
+        <nav className="flex items-center gap-2 text-sm">
+          <Link
+            href="/recommended"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3.5 py-2 text-sm font-semibold text-white/80 shadow-sm transition hover:border-white/25 hover:bg-white/[0.06]"
+          >
+            <span>Recommended</span>
+          </Link>
+
           <Link
             href="/import"
             className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-sm font-semibold text-black shadow-sm ring-1 ring-white/20 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
