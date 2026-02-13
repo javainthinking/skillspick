@@ -1,12 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #07060a;
-  --foreground: #f5f2ff;
+  /* theme tokens (light default) */
+  --background: #fbfbfe;
+  --foreground: #0b0b10;
+
+  --ui-bg: rgba(0, 0, 0, 0.03);
+  --ui-bg-hover: rgba(0, 0, 0, 0.06);
+  --ui-border: rgba(0, 0, 0, 0.10);
+  --ui-border-strong: rgba(0, 0, 0, 0.18);
+  --ui-fg: rgba(0, 0, 0, 0.78);
+  --ui-fg-muted: rgba(0, 0, 0, 0.58);
+  --ui-fg-faint: rgba(0, 0, 0, 0.40);
+
+  --body-bg: radial-gradient(900px circle at 50% 0%, rgba(168, 85, 247, 0.10), transparent 55%),
+    radial-gradient(900px circle at 100% 15%, rgba(59, 130, 246, 0.08), transparent 55%),
+    var(--background);
+
+  --selection-bg: rgba(168, 85, 247, 0.22);
 
   /* typography (local bundled fonts via @fontsource-variable; no external fetch) */
   --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Manrope Variable", Manrope, ui-sans-serif, system-ui, sans-serif;
+}
+
+html.dark {
+  --background: #07060a;
+  --foreground: #f5f2ff;
+
+  --ui-bg: rgba(255, 255, 255, 0.035);
+  --ui-bg-hover: rgba(255, 255, 255, 0.06);
+  --ui-border: rgba(255, 255, 255, 0.10);
+  --ui-border-strong: rgba(255, 255, 255, 0.20);
+  --ui-fg: rgba(255, 255, 255, 0.85);
+  --ui-fg-muted: rgba(255, 255, 255, 0.65);
+  --ui-fg-faint: rgba(255, 255, 255, 0.40);
+
+  --body-bg: radial-gradient(900px circle at 50% 0%, rgba(168, 85, 247, 0.12), transparent 55%),
+    radial-gradient(900px circle at 100% 15%, rgba(59, 130, 246, 0.10), transparent 55%),
+    var(--background);
+
+  --selection-bg: rgba(168, 85, 247, 0.28);
 }
 
 html,
@@ -15,9 +49,7 @@ body {
 }
 
 body {
-  background: radial-gradient(900px circle at 50% 0%, rgba(168, 85, 247, 0.12), transparent 55%),
-    radial-gradient(900px circle at 100% 15%, rgba(59, 130, 246, 0.10), transparent 55%),
-    var(--background);
+  background: var(--body-bg);
   color: var(--foreground);
 }
 
@@ -28,7 +60,7 @@ h3 {
 }
 
 ::selection {
-  background: rgba(168, 85, 247, 0.28);
+  background: var(--selection-bg);
 }
 
 /* GitHub-flavored markdown base (github-markdown-css) tweaks to fit our glass UI */

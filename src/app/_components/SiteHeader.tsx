@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
+import ThemeToggle from "@/app/_components/ThemeToggle";
 
 const brandFont = Montserrat({
   subsets: ["latin"],
@@ -27,7 +28,7 @@ function StarIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function SiteHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur supports-[backdrop-filter]:bg-black/20">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link href="/" className={`group flex items-center gap-2.5 ${brandFont.className}`}>
           <Image
@@ -38,12 +39,13 @@ export function SiteHeader() {
             priority
             className="opacity-90 transition group-hover:opacity-100"
           />
-          <span className="text-[17px] font-semibold tracking-tight text-white/90 transition group-hover:text-white">
+          <span className="text-[17px] font-semibold tracking-tight text-[color:var(--ui-fg)] transition group-hover:text-[color:var(--foreground)]">
             PickSkill
           </span>
         </Link>
 
         <nav className="flex items-center gap-2 text-sm">
+          <ThemeToggle />
           <Link
             href="/recommended"
             className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3.5 py-2 text-sm font-semibold text-white/80 shadow-sm transition hover:border-white/25 hover:bg-white/[0.06]"
