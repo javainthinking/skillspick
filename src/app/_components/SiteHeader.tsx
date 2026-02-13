@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
 import ThemeToggle from "@/app/_components/ThemeToggle";
+import ThemedLogo from "@/app/_components/ThemedLogo";
 
 const brandFont = Montserrat({
   subsets: ["latin"],
@@ -31,22 +31,7 @@ export function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <Link href="/" className={`group flex items-center gap-2.5 ${brandFont.className}`}>
-          <Image
-            src="/black-pickskill.svg"
-            alt="PickSkill"
-            width={28}
-            height={28}
-            priority
-            className="opacity-90 transition group-hover:opacity-100 dark:hidden"
-          />
-          <Image
-            src="/white-pickskill.svg"
-            alt="PickSkill"
-            width={28}
-            height={28}
-            priority
-            className="hidden opacity-90 transition group-hover:opacity-100 dark:block"
-          />
+          <ThemedLogo size={28} />
           <span className="text-[17px] font-semibold tracking-tight text-[color:var(--ui-fg)] transition group-hover:text-[color:var(--foreground)]">
             PickSkill
           </span>
