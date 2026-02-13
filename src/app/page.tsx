@@ -1,10 +1,7 @@
 import Link from "next/link";
-import { cookies } from "next/headers";
 import { getDb } from "@/db";
 import { skills } from "@/db/schema";
 import { desc, ilike, or, sql, and, eq, isNotNull } from "drizzle-orm";
-import AdminPanel from "@/app/_components/AdminPanel";
-import { verifyAdminCookieValue } from "@/lib/adminAuth";
 
 import type { Metadata } from "next";
 
@@ -32,9 +29,6 @@ type Props = {
 };
 
 export default async function Home({ searchParams }: Props) {
-  const jar = await cookies();
-  const isAdmin = verifyAdminCookieValue(jar.get("pickskill_admin")?.value);
-
   const sp = (await searchParams) ?? {};
   const qRaw = Array.isArray(sp.q) ? sp.q[0] : sp.q;
   const q = (qRaw ?? "").trim();
@@ -137,9 +131,7 @@ export default async function Home({ searchParams }: Props) {
   return (
     <main className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(168,85,247,0.35),transparent_60%),radial-gradient(900px_500px_at_80%_10%,rgba(56,189,248,0.18),transparent_55%),radial-gradient(900px_500px_at_10%_20%,rgba(99,102,241,0.16),transparent_55%)]">
       <div className="mx-auto max-w-5xl px-4 py-8">
-        <header className="flex items-center justify-end">
-          <AdminPanel isAdmin={isAdmin} />
-        </header>
+        <header className="flex items-center justify-end" />
 
         <section className="mx-auto flex min-h-[56vh] max-w-2xl flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl font-[var(--font-display)]">
