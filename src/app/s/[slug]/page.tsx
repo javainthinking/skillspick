@@ -204,7 +204,8 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 title={s.sourceUrl}
               >
                 <span className="inline-flex items-center gap-2">
-                  <img src="/brands/github.svg" alt="Entry" className="h-4 w-4 opacity-95" />
+                  <img src="/brands/github.svg" alt="Entry" className="hidden h-4 w-4 opacity-95 dark:block" />
+                  <img src="/brands/github_light.svg" alt="Entry" className="h-4 w-4 opacity-95 dark:hidden" />
                   <span>Open Entry</span>
                   <span className="text-white/90 dark:text-white/90 text-black/60">↗</span>
                 </span>
@@ -249,7 +250,8 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/openai.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <img src="/brands/openai.svg" alt="OpenAI" className="hidden h-4 w-4 opacity-80 group-hover:opacity-100 dark:block" />
+                <img src="/brands/openai_light.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100 dark:hidden" />
                 <span>OpenAI Codex</span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
@@ -288,7 +290,8 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 title={s.repoUrl}
               >
-                <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <img src="/brands/github.svg" alt="GitHub" className="hidden h-4 w-4 opacity-80 group-hover:opacity-100 dark:block" />
+                <img src="/brands/github_light.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100 dark:hidden" />
                 <span>Repo</span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
@@ -319,7 +322,10 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 referrerPolicy="no-referrer"
               />
             ) : isGitHubList ? (
-              <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+              <>
+                <img src="/brands/github.svg" alt="GitHub" className="hidden h-4 w-4 opacity-80 group-hover:opacity-100 dark:block" />
+                <img src="/brands/github_light.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100 dark:hidden" />
+              </>
             ) : (
               <span className="grid h-4 w-4 place-items-center rounded bg-[color:var(--ui-bg-hover)] text-[10px] font-semibold text-[color:var(--ui-fg-muted)]">
                 S

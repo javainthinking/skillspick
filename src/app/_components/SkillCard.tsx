@@ -27,7 +27,10 @@ export default function SkillCard({
         referrerPolicy="no-referrer"
       />
     ) : sourceKind === "github" ? (
-      <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-85" />
+      <>
+        <img src="/brands/github.svg" alt="GitHub" className="hidden h-4 w-4 opacity-85 dark:block" />
+        <img src="/brands/github_light.svg" alt="GitHub" className="h-4 w-4 opacity-85 dark:hidden" />
+      </>
     ) : null;
 
   return (
