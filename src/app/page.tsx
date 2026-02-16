@@ -3,6 +3,7 @@ import { getDb } from "@/db";
 import { skills } from "@/db/schema";
 import { desc, ilike, or, sql, and, eq, isNotNull } from "drizzle-orm";
 import SkillCard from "@/app/_components/SkillCard";
+import OpenAILogo from "@/app/_components/OpenAILogo";
 
 import type { Metadata } from "next";
 
@@ -218,7 +219,7 @@ export default async function Home({ searchParams }: Props) {
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/openai.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <OpenAILogo className="h-4 w-4 opacity-80 group-hover:opacity-100" />
                 <span className="text-[color:var(--ui-fg)]">Codex</span>
                 <span className="text-[color:var(--ui-fg-faint)]">OpenAI</span>
               </a>

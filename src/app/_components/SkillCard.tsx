@@ -1,4 +1,5 @@
 import Link from "next/link";
+import GitHubLogo from "@/app/_components/GitHubLogo";
 
 export default function SkillCard({
   s,
@@ -27,7 +28,7 @@ export default function SkillCard({
         referrerPolicy="no-referrer"
       />
     ) : sourceKind === "github" ? (
-      <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-85" />
+      <GitHubLogo className="h-4 w-4 opacity-85" />
     ) : null;
 
   return (

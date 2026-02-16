@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { getDb } from "@/db";
 import { skills, skillSources, sources } from "@/db/schema";
 import HighlightToggle from "@/app/_components/HighlightToggle";
+import GitHubLogo from "@/app/_components/GitHubLogo";
+import OpenAILogo from "@/app/_components/OpenAILogo";
 import { verifyAdminCookieValue } from "@/lib/adminAuth";
 import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
@@ -204,7 +206,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 title={s.sourceUrl}
               >
                 <span className="inline-flex items-center gap-2">
-                  <img src="/brands/github.svg" alt="Entry" className="h-4 w-4 opacity-95" />
+                  <GitHubLogo className="h-4 w-4 opacity-95" />
                   <span>Open Entry</span>
                   <span className="text-white/90 dark:text-white/90 text-black/60">↗</span>
                 </span>
@@ -249,7 +251,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/openai.svg" alt="OpenAI" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <OpenAILogo className="h-4 w-4 opacity-80 group-hover:opacity-100" />
                 <span>OpenAI Codex</span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
@@ -288,7 +290,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 title={s.repoUrl}
               >
-                <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <GitHubLogo className="h-4 w-4 opacity-80 group-hover:opacity-100" />
                 <span>Repo</span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
@@ -319,7 +321,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 referrerPolicy="no-referrer"
               />
             ) : isGitHubList ? (
-              <img src="/brands/github.svg" alt="GitHub" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+              <GitHubLogo className="h-4 w-4 opacity-80 group-hover:opacity-100" />
             ) : (
               <span className="grid h-4 w-4 place-items-center rounded bg-[color:var(--ui-bg-hover)] text-[10px] font-semibold text-[color:var(--ui-fg-muted)]">
                 S
