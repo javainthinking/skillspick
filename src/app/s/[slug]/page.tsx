@@ -62,9 +62,26 @@ export async function generateMetadata({
   };
 }
 
-async function fetchBestDoc(
-  entryUrl?: string | null,
-): Promise<{ rawUrl: string; markdown: string; label: string } | null> {
+function extractFirstGithubUrl(text: string): string | null {
+  const m = text.match(/https?:\/\/github\.com\/[^\s"'<>]+/i);
+  if (!m) return null;
+  return m[0]!.split("#")[0]!.split("?")[0]!;
+}
+
+async function resolveSkillsShGithubUrl(skillsShUrl: string): Promise<string | null> {
+  // skills.sh pages often include a "Repository" section linking to GitHub.
+  // We fetch the HTML and extract the first GitHub URL.
+  try {
+    const res = await fetch(skillsShUrl, { next: { revalidate: 60 * 60 * 12 } });
+    if (!res.ok) return null;
+    const html = await res.text();
+    return extractFirstGithubUrl(html);
+  } catch {
+    return null;
+  }
+}
+
+async function fetchBestDoc(entryUrl?: string | null): Promise<{ rawUrl: string; markdown: string; label: string } | null> {
   if (!entryUrl) return null;
 
   const candidates = docCandidatesFromEntryUrl(entryUrl);
@@ -177,9 +194,17 @@ export default async function SkillPage({
     .innerJoin(sources, eq(skillSources.sourceId, sources.id))
     .where(eq(skillSources.skillId, s.id));
 
+  const isSkillsSh = !!s.sourceUrl && /https?:\/\/skills\.sh\//i.test(s.sourceUrl);
+  const skillsShGithubUrl = isSkillsSh && s.sourceUrl ? await resolveSkillsShGithubUrl(s.sourceUrl) : null;
+
+  // What "Open Entry" should point to:
+  // - default: the stored sourceUrl
+  // - for skills.sh: the GitHub repository URL linked under "Repository" on the skills.sh detail page
+  const openEntryUrl = skillsShGithubUrl ?? s.sourceUrl;
+
   // Manus import works best when githubUrl points at the *skill folder* (usually a /tree/... URL).
-  // So prefer the same GitHub URL we use for the primary "Open Entry" when it is a /tree/... link.
-  const githubEntryUrl = bestGithubUrlForManus([s.sourceUrl, s.repoUrl]);
+  // Prefer the best GitHub URL we can find.
+  const githubEntryUrl = bestGithubUrlForManus([skillsShGithubUrl, s.repoUrl, s.sourceUrl]);
   const manusUrl = githubEntryUrl ? manusImportUrl(githubEntryUrl) : null;
 
   const skillDoc = await fetchBestDoc(s.sourceUrl);
@@ -228,13 +253,13 @@ export default async function SkillPage({
           ) : null}
           {/* Primary CTAs */}
           <div className="grid gap-2 sm:grid-cols-2">
-            {s.sourceUrl ? (
+            {openEntryUrl ? (
               <a
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-indigo-500 to-cyan-400 px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(99,102,241,0.20)] transition hover:opacity-95"
-                href={s.sourceUrl}
+                href={openEntryUrl}
                 target="_blank"
                 rel="noreferrer"
-                title={s.sourceUrl}
+                title={openEntryUrl}
               >
                 <span className="inline-flex items-center gap-2">
                   <GitHubLogo className="h-4 w-4 opacity-95" />
