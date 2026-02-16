@@ -11,18 +11,21 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "PickSkill",
-  description: "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
+  description:
+    "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "PickSkill",
-    description: "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
+    description:
+      "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
     url: "/",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "PickSkill",
-    description: "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
+    description:
+      "Search and discover AI agent skills. Fast. Minimal. SEO-friendly.",
   },
 };
 
@@ -67,7 +70,11 @@ export default async function Home({ searchParams }: Props) {
         .limit(50)
     : db.select().from(skills).orderBy(desc(skills.lastSeenAt)).limit(12);
 
-  const [rows, totalSkills, highlighted] = await Promise.all([rowsPromise, totalSkillsPromise, highlightedPromise]);
+  const [rows, totalSkills, highlighted] = await Promise.all([
+    rowsPromise,
+    totalSkillsPromise,
+    highlightedPromise,
+  ]);
 
   const faq = [
     {
@@ -112,7 +119,9 @@ export default async function Home({ searchParams }: Props) {
       url: (process.env.SITE_URL || "https://pickskill.ai") + "/",
       potentialAction: {
         "@type": "SearchAction",
-        target: (process.env.SITE_URL || "https://pickskill.ai") + "/?q={search_term_string}",
+        target:
+          (process.env.SITE_URL || "https://pickskill.ai") +
+          "/?q={search_term_string}",
         "query-input": "required name=search_term_string",
       },
     },
@@ -133,7 +142,6 @@ export default async function Home({ searchParams }: Props) {
   return (
     <main className="min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8">
-
         <section className="mx-auto flex min-h-[56vh] max-w-4xl flex-col items-center justify-center text-center">
           <h1 className="text-5xl font-semibold tracking-tight text-[color:var(--foreground)] sm:text-6xl font-[var(--font-display)]">
             <span className="font-medium text-[color:var(--ui-fg)]">Pick</span>
@@ -151,8 +159,12 @@ export default async function Home({ searchParams }: Props) {
           <div className="mt-4 flex items-center justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-sm text-[color:var(--ui-fg-muted)] backdrop-blur">
               <span className="text-[color:var(--ui-fg-faint)]">Total</span>
-              <span className="font-semibold text-[color:var(--ui-fg)]">{Intl.NumberFormat().format(totalSkills)}</span>
-              <span className="text-[color:var(--ui-fg-faint)]">skills indexed</span>
+              <span className="font-semibold text-[color:var(--ui-fg)]">
+                {Intl.NumberFormat().format(totalSkills)}
+              </span>
+              <span className="text-[color:var(--ui-fg-faint)]">
+                skills indexed
+              </span>
             </div>
           </div>
 
@@ -178,8 +190,12 @@ export default async function Home({ searchParams }: Props) {
             <div className="mt-4 text-sm text-[color:var(--ui-fg-muted)]">
               {q ? (
                 <>
-                  Showing top {rows.length} results for <span className="text-[color:var(--ui-fg)]">“{q}”</span> ·{" "}
-                  <Link href="/" className="underline underline-offset-4 hover:text-[color:var(--foreground)]">
+                  Showing top {rows.length} results for{" "}
+                  <span className="text-[color:var(--ui-fg)]">“{q}”</span> ·{" "}
+                  <Link
+                    href="/"
+                    className="underline underline-offset-4 hover:text-[color:var(--foreground)]"
+                  >
                     Clear
                   </Link>
                 </>
@@ -189,7 +205,9 @@ export default async function Home({ searchParams }: Props) {
             </div>
 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-[color:var(--ui-fg-muted)]">
-              <div className="mr-1 text-[11px] uppercase tracking-wider text-[color:var(--ui-fg-faint)]">Works with</div>
+              <div className="mr-1 text-[11px] uppercase tracking-wider text-[color:var(--ui-fg-faint)]">
+                Works with
+              </div>
 
               <a
                 href="https://cursor.com"
@@ -197,7 +215,11 @@ export default async function Home({ searchParams }: Props) {
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/cursor.ico" alt="Cursor" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <img
+                  src="/brands/cursor.ico"
+                  alt="Cursor"
+                  className="h-4 w-4 opacity-80 group-hover:opacity-100"
+                />
                 <span className="text-[color:var(--ui-fg)]">Cursor</span>
                 <span className="text-[color:var(--ui-fg-faint)]">IDE</span>
               </a>
@@ -208,7 +230,11 @@ export default async function Home({ searchParams }: Props) {
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/claude.ico" alt="Claude" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <img
+                  src="/brands/claude.ico"
+                  alt="Claude"
+                  className="h-4 w-4 opacity-80 group-hover:opacity-100"
+                />
                 <span className="text-[color:var(--ui-fg)]">Claude</span>
                 <span className="text-[color:var(--ui-fg-faint)]">LLM</span>
               </a>
@@ -230,7 +256,11 @@ export default async function Home({ searchParams }: Props) {
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/openclaw.svg" alt="OpenClaw" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <img
+                  src="/brands/openclaw.svg"
+                  alt="OpenClaw"
+                  className="h-4 w-4 opacity-80 group-hover:opacity-100"
+                />
                 <span className="text-[color:var(--ui-fg)]">OpenClaw</span>
                 <span className="text-[color:var(--ui-fg-faint)]">Agents</span>
               </a>
@@ -273,7 +303,9 @@ export default async function Home({ searchParams }: Props) {
         <section className="mx-auto max-w-7xl pb-14">
           {!q && highlighted.length ? (
             <div className="mb-10">
-              <div className="mb-3 text-sm font-medium uppercase tracking-wider text-white/35">Recommended</div>
+              <div className="mb-3 text-sm font-medium uppercase tracking-wider text-white/35">
+                Recommended
+              </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {highlighted.map((s) => (
                   <SkillCard key={s.id} s={s} highlightedBadge />
@@ -299,7 +331,9 @@ export default async function Home({ searchParams }: Props) {
           ) : null}
 
           <div className="mt-14 border-t border-white/10 pt-10">
-            <div className="text-xs font-medium uppercase tracking-wider text-white/35">FAQ</div>
+            <div className="text-xs font-medium uppercase tracking-wider text-white/35">
+              FAQ
+            </div>
             <div className="mt-4 space-y-2">
               {faq.map((item) => (
                 <details
@@ -307,11 +341,17 @@ export default async function Home({ searchParams }: Props) {
                   className="group rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-5 py-4 open:bg-[color:var(--ui-bg-hover)]"
                 >
                   <summary className="cursor-pointer list-none select-none text-sm font-semibold text-[color:var(--ui-fg)]">
-                    <span className="mr-2 text-[color:var(--ui-fg-faint)] group-open:hidden">+</span>
-                    <span className="mr-2 text-[color:var(--ui-fg-faint)] hidden group-open:inline">−</span>
+                    <span className="mr-2 text-[color:var(--ui-fg-faint)] group-open:hidden">
+                      +
+                    </span>
+                    <span className="mr-2 text-[color:var(--ui-fg-faint)] hidden group-open:inline">
+                      −
+                    </span>
                     {item.q}
                   </summary>
-                  <div className="mt-3 text-sm leading-relaxed text-[color:var(--ui-fg-muted)]">{item.a}</div>
+                  <div className="mt-3 text-sm leading-relaxed text-[color:var(--ui-fg-muted)]">
+                    {item.a}
+                  </div>
                 </details>
               ))}
             </div>
@@ -322,7 +362,10 @@ export default async function Home({ searchParams }: Props) {
           </footer>
         </section>
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </div>
     </main>
   );

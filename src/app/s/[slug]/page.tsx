@@ -22,10 +22,18 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const db = getDb();
-  const row = await db.select().from(skills).where(eq(skills.slug, slug)).limit(1);
+  const row = await db
+    .select()
+    .from(skills)
+    .where(eq(skills.slug, slug))
+    .limit(1);
   const s = row[0];
   if (!s) return { title: "Skill not found | PickSkill" };
 
@@ -33,7 +41,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const url = `${site}/s/${s.slug}`;
 
   const title = `${s.name}`;
-  const description = (s.description || "").slice(0, 180) || `AI agent skill: ${s.name}`;
+  const description =
+    (s.description || "").slice(0, 180) || `AI agent skill: ${s.name}`;
 
   return {
     title,
@@ -53,7 +62,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-async function fetchBestDoc(entryUrl?: string | null): Promise<{ rawUrl: string; markdown: string; label: string } | null> {
+async function fetchBestDoc(
+  entryUrl?: string | null,
+): Promise<{ rawUrl: string; markdown: string; label: string } | null> {
   if (!entryUrl) return null;
 
   const candidates = docCandidatesFromEntryUrl(entryUrl);
@@ -134,13 +145,21 @@ function bestGithubUrlForManus(urls: Array<string | null | undefined>) {
   return gh[0] ?? null;
 }
 
-export default async function SkillPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function SkillPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const jar = await cookies();
   const isAdmin = verifyAdminCookieValue(jar.get("pickskill_admin")?.value);
 
   const { slug } = await params;
   const db = getDb();
-  const row = await db.select().from(skills).where(eq(skills.slug, slug)).limit(1);
+  const row = await db
+    .select()
+    .from(skills)
+    .where(eq(skills.slug, slug))
+    .limit(1);
   const s = row[0];
   if (!s) return notFound();
 
@@ -165,7 +184,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
 
   const skillDoc = await fetchBestDoc(s.sourceUrl);
   const toc = skillDoc ? extractHeadings(skillDoc.markdown, 3) : [];
-  const skillDocHtml = skillDoc ? await renderMarkdownHtml(skillDoc.markdown) : null;
+  const skillDocHtml = skillDoc
+    ? await renderMarkdownHtml(skillDoc.markdown)
+    : null;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -181,7 +202,12 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
   return (
     <main className="min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-10">
-        <Link href="/" className="text-sm text-[color:var(--ui-fg-muted)] hover:text-[color:var(--foreground)]">← Back</Link>
+        <Link
+          href="/"
+          className="text-sm text-[color:var(--ui-fg-muted)] hover:text-[color:var(--foreground)]"
+        >
+          ← Back
+        </Link>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-3xl font-extrabold tracking-tight">{s.name}</h1>
@@ -194,7 +220,12 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
         <p className="mt-3 text-[color:var(--ui-fg-muted)]">{s.description}</p>
 
         <div className="mt-6 flex flex-col gap-3">
-          {isAdmin ? <HighlightToggle skillId={s.id} initialHighlighted={Boolean(s.highlighted)} /> : null}
+          {isAdmin ? (
+            <HighlightToggle
+              skillId={s.id}
+              initialHighlighted={Boolean(s.highlighted)}
+            />
+          ) : null}
           {/* Primary CTAs */}
           <div className="grid gap-2 sm:grid-cols-2">
             {s.sourceUrl ? (
@@ -208,7 +239,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 <span className="inline-flex items-center gap-2">
                   <GitHubLogo className="h-4 w-4 opacity-95" />
                   <span>Open Entry</span>
-                  <span className="text-white/90 dark:text-white/90 text-black/60">↗</span>
+                  <span className="text-white/90 dark:text-white/90 text-black/60">
+                    ↗
+                  </span>
                 </span>
               </a>
             ) : null}
@@ -222,7 +255,11 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 title="Run this skill in Manus"
               >
                 <span className="inline-flex items-center gap-2">
-                  <img src="/brands/manus-64.png" alt="Manus" className="h-4 w-4 rounded opacity-90 group-hover:opacity-100" />
+                  <img
+                    src="/brands/manus-64.png"
+                    alt="Manus"
+                    className="h-4 w-4 rounded opacity-90 group-hover:opacity-100"
+                  />
                   <span>Run Skill in Manus</span>
                   <span className="text-[color:var(--ui-fg-faint)]">↗</span>
                 </span>
@@ -232,7 +269,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
 
           {/* How to load & run skills */}
           <div className="rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-4">
-            <div className="text-xs font-semibold uppercase tracking-wider text-[color:var(--ui-fg-faint)]">How to load & run skills</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-[color:var(--ui-fg-faint)]">
+              How to load & run skills
+            </div>
             <div className="mt-3 flex flex-wrap gap-2 text-sm">
               <a
                 href="https://code.claude.com/docs/en/skills"
@@ -240,7 +279,11 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/claude.ico" alt="Claude" className="h-4 w-4 opacity-85 group-hover:opacity-100" />
+                <img
+                  src="/brands/claude.ico"
+                  alt="Claude"
+                  className="h-4 w-4 opacity-85 group-hover:opacity-100"
+                />
                 <span>Claude Code</span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
@@ -262,7 +305,11 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/cursor.ico" alt="Cursor" className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+                <img
+                  src="/brands/cursor.ico"
+                  alt="Cursor"
+                  className="h-4 w-4 opacity-80 group-hover:opacity-100"
+                />
                 <span>Cursor</span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
@@ -273,7 +320,12 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1.5 text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
               >
-                <img src="/brands/antigravity.png" alt="Antigravity" className="h-4 w-4 opacity-85 group-hover:opacity-100" loading="lazy" />
+                <img
+                  src="/brands/antigravity.png"
+                  alt="Antigravity"
+                  className="h-4 w-4 opacity-85 group-hover:opacity-100"
+                  loading="lazy"
+                />
                 <span>Antigravity</span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
@@ -304,43 +356,53 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
                 rel="noreferrer"
                 title={s.homepageUrl}
               >
-                <span className="text-[color:var(--ui-fg-muted)] group-hover:text-[color:var(--foreground)]">Homepage</span>
+                <span className="text-[color:var(--ui-fg-muted)] group-hover:text-[color:var(--foreground)]">
+                  Homepage
+                </span>
                 <span className="text-[color:var(--ui-fg-faint)]">↗</span>
               </a>
             ) : null}
 
             {sourceRows.map((src) => {
-            const isClawHub = src.kind === "clawhub" || /clawhub\./i.test(src.url);
-            const isGitHubList = src.kind === "github_list" || /github\.com/i.test(src.url);
-            const icon = isClawHub ? (
-              <img
-                src="https://clawhub.ai/clawd-logo.png"
-                alt="ClawHub"
-                className="h-4 w-4 rounded bg-white/5 p-0.5 opacity-90 group-hover:opacity-100"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            ) : isGitHubList ? (
-              <GitHubLogo className="h-4 w-4 opacity-80 group-hover:opacity-100" />
-            ) : (
-              <span className="grid h-4 w-4 place-items-center rounded bg-[color:var(--ui-bg-hover)] text-[10px] font-semibold text-[color:var(--ui-fg-muted)]">
-                S
-              </span>
-            );
+              const isClawHub =
+                src.kind === "clawhub" || /clawhub\./i.test(src.url);
+              const isGitHubList =
+                src.kind === "github_list" || /github\.com/i.test(src.url);
+              const icon = isClawHub ? (
+                <img
+                  src="https://clawhub.ai/clawd-logo.png"
+                  alt="ClawHub"
+                  className="h-4 w-4 rounded bg-white/5 p-0.5 opacity-90 group-hover:opacity-100"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+              ) : isGitHubList ? (
+                <GitHubLogo className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+              ) : (
+                <span className="grid h-4 w-4 place-items-center rounded bg-[color:var(--ui-bg-hover)] text-[10px] font-semibold text-[color:var(--ui-fg-muted)]">
+                  S
+                </span>
+              );
 
-            return (
-              <a
-                key={src.id}
-                className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
-                href={src.url}
-                target="_blank"
-                rel="noreferrer"
-                title={src.name}
-              >
-                {icon}
-                <span className="text-[color:var(--ui-fg-muted)] group-hover:text-[color:var(--foreground)]">{isClawHub ? "ClawHub" : isGitHubList ? "GitHub list" : "Source"}</span>
-              </a>
-            );
+              return (
+                <a
+                  key={src.id}
+                  className="group inline-flex items-center gap-2 rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
+                  href={src.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={src.name}
+                >
+                  {icon}
+                  <span className="text-[color:var(--ui-fg-muted)] group-hover:text-[color:var(--foreground)]">
+                    {isClawHub
+                      ? "ClawHub"
+                      : isGitHubList
+                        ? "GitHub list"
+                        : "Source"}
+                  </span>
+                </a>
+              );
             })}
           </div>
         </div>
@@ -349,16 +411,28 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
           <div className="mt-8 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-semibold text-[color:var(--ui-fg)]">{skillDoc?.label ?? "Doc"}</div>
+                <div className="text-sm font-semibold text-[color:var(--ui-fg)]">
+                  {skillDoc?.label ?? "Doc"}
+                </div>
                 <div className="mt-1 text-xs text-[color:var(--ui-fg-muted)]">
                   Rendered from{" "}
-                  <a className="underline underline-offset-4 hover:text-[color:var(--foreground)]" href={skillDoc!.rawUrl} target="_blank" rel="noreferrer">
+                  <a
+                    className="underline underline-offset-4 hover:text-[color:var(--foreground)]"
+                    href={skillDoc!.rawUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     GitHub raw
                   </a>
                 </div>
               </div>
               {skillDoc?.rawUrl ? (
-                <a className="rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 text-xs text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]" href={skillDoc.rawUrl} target="_blank" rel="noreferrer">
+                <a
+                  className="rounded-full border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] px-3 py-1 text-xs text-[color:var(--ui-fg-muted)] hover:border-[color:var(--ui-border-strong)] hover:bg-[color:var(--ui-bg-hover)]"
+                  href={skillDoc.rawUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   View raw ↗
                 </a>
               ) : null}
@@ -366,7 +440,9 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
 
             {toc.length ? (
               <div className="mt-5 rounded-xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-4">
-                <div className="text-xs font-semibold uppercase tracking-wider text-[color:var(--ui-fg-faint)]">On this page</div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-[color:var(--ui-fg-faint)]">
+                  On this page
+                </div>
                 <div className="mt-3 space-y-2 text-sm">
                   {toc.map((h) => (
                     <a
@@ -388,12 +464,19 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
           </div>
         ) : s.readmeMarkdown ? (
           <div className="mt-8 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-bg)] p-5">
-            <div className="text-sm font-semibold text-[color:var(--ui-fg)]">README (raw)</div>
-            <pre className="mt-3 max-h-[520px] overflow-auto whitespace-pre-wrap text-xs text-[color:var(--ui-fg-muted)]">{s.readmeMarkdown}</pre>
+            <div className="text-sm font-semibold text-[color:var(--ui-fg)]">
+              README (raw)
+            </div>
+            <pre className="mt-3 max-h-[520px] overflow-auto whitespace-pre-wrap text-xs text-[color:var(--ui-fg-muted)]">
+              {s.readmeMarkdown}
+            </pre>
           </div>
         ) : null}
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </div>
     </main>
   );
